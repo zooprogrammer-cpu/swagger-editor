@@ -2,6 +2,38 @@
 
 SwaggerEditor is using **forked** Create React App as it's building infrastructure.
 
+Changes **required** for **Vista Hackathon 2022**:
+
+
+```diff
+diff --git a/packages/react-scripts/config/paths.js b/packages/react-scripts/config/paths.js
+index eb5421b9..ec6b0701 100644
+--- a/packages/react-scripts/config/paths.js
++++ b/packages/react-scripts/config/paths.js
+@@ -31,7 +31,8 @@ const publicUrlOrPath = getPublicUrlOrPath(
+
+ const buildPath = process.env.BUILD_PATH || 'build';
+ const distPath = process.env.DIST_PATH || 'dist';
+-const isBuildingBundle = process.env.BUILD_ESM_BUNDLE === 'true' || process.env.BUILD_UMD_BUNDLE === 'true';
++// const isBuildingBundle = process.env.BUILD_ESM_BUNDLE === 'true' || process.env.BUILD_UMD_BUNDLE === 'true';
++const isBuildingBundle = false;
+
+ const moduleFileExtensions = [
+   'web.mjs',
+diff --git a/packages/react-scripts/config/webpack.config.bundle.umd.js b/packages/react-scripts/config/webpack.config.bundle.umd.js
+index 6d8c824d..224d5e98 100644
+--- a/packages/react-scripts/config/webpack.config.bundle.umd.js
++++ b/packages/react-scripts/config/webpack.config.bundle.umd.js
+@@ -122,7 +122,7 @@ const swaggerEditorConfig = (webpackEnv) => {
+   config.externalsType = 'umd';
+   config.externals = {
+     ...config.externals,
+-    react: 'React',
++    // react: 'React',
+   };
+```
+
+
 ## Table of Contents
 
 - [Getting started](#getting-started)
