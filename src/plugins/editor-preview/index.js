@@ -3,6 +3,7 @@ import EditorPreviewFallback from './components/EditorPreviewFallback.jsx';
 
 const EditorPreviewPlugin = () => ({
   components: {
+    EditorPreviewFallback,
     EditorPreviewPane,
     EditorPreview: EditorPreviewFallback,
   },
