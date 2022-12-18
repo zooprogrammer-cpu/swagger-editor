@@ -25,6 +25,7 @@ import EditorContentPersistencePlugin from './plugins/editor-content-persistence
 import EditorContentFixturesPlugin from './plugins/editor-content-fixtures/index.js';
 import EditorContentJumpFromPathToLinePlugin from './plugins/editor-content-jump-from-path-to-line/index.js';
 import SwaggerUIAdapterPlugin from './plugins/swagger-ui-adapter/index.js';
+import LanguageOrientedContentTypePlugin from './plugins/language-oriented-content-type/index.js';
 
 const SafeRenderPlugin = (system) =>
   SwaggerUI.plugins.SafeRender({
@@ -77,6 +78,7 @@ SwaggerEditor.plugins = {
   SplashScreenPlugin,
   Layout: LayoutPlugin,
   SwaggerUIAdapter: SwaggerUIAdapterPlugin,
+  LanguageOrientedContentType: LanguageOrientedContentTypePlugin,
 };
 SwaggerEditor.presets = {
   textarea: () => [
@@ -100,6 +102,7 @@ SwaggerEditor.presets = {
     SplashScreenPlugin,
     LayoutPlugin,
     SafeRenderPlugin,
+    LanguageOrientedContentTypePlugin,
   ],
   monaco: () => [
     ModalsPlugin,
@@ -112,6 +115,7 @@ SwaggerEditor.presets = {
     EditorContentReadOnlyPlugin,
     EditorContentOriginPlugin,
     EditorContentTypePlugin,
+    LanguageOrientedContentTypePlugin,
     EditorContentPersistencePlugin,
     EditorContentFixturesPlugin,
     EditorContentJumpFromPathToLinePlugin,
