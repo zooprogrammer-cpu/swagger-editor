@@ -2,10 +2,12 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import * as monaco from 'monaco-editor';
 import noop from 'lodash/noop.js';
+// import * as apidomJsonPointer from '@swagger-api/apidom-json-pointer';
 
 import seVsDarkTheme from '../../themes/se-vs-dark.js';
 import seVsLightTheme from '../../themes/se-vs-light.js';
 import { useMount, useUpdate, useSmoothResize } from './hooks.js';
+// import { Position } from "vscode-languageclient";
 
 /**
  * Hooks in MonacoEditor component are divided into 4 categories:
@@ -15,6 +17,43 @@ import { useMount, useUpdate, useSmoothResize } from './hooks.js';
  *  - rest of the hooks
  */
 
+/*
+function eventList() {
+  const els = document.getElementsByClassName('myGlyphMarginClass');
+
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < els.length; ++i) {
+    els[i].onclick = function (e) {
+      console.log('add/edit comment', e);
+      const line = Array.from(e.target.classList)
+        .filter((w) => w.match(/myGlyphMarginClass\/\w*!/))[0]
+        .substring('myGlyphMarginClass'.length);
+      console.log('line', line);
+      prompt(`Add/Edit a comment to line ${line}`, `Comment to line ${line}`);
+    };
+  }
+}
+*/
+/*
+function buildJsonPointer(path) {
+  return `/${path.join('/')}`;
+}
+
+function buildPointer(traverseNode, nodePath) {
+  if (!traverseNode) return;
+  if (traverseNode.parent && apidomLS.isMemberElement(traverseNode.parent)) {
+    nodePath.unshift(traverseNode.parent.key.toValue());
+    buildPointer(traverseNode.parent?.parent, nodePath);
+  } else if (traverseNode.parent && apidomLS.isArrayElement(traverseNode.parent)) {
+    // eslint-disable-next-line no-unused-vars
+    traverseNode.parent.forEach((value, index, array) => {
+      if (value === traverseNode) {
+        nodePath.unshift(`[${index.toValue()}]`);
+        buildPointer(traverseNode.parent, nodePath);
+      }
+    });
+  }
+} */
 const MonacoEditor = ({
   value,
   theme,
@@ -31,6 +70,8 @@ const MonacoEditor = ({
   const valueRef = useRef(value);
   const preventCreation = useRef(false);
   const [isEditorReady, setIsEditorReady] = useState(false);
+
+  localStorage.clear();
 
   const createEditor = useCallback(() => {
     if (!containerRef.current) return;
@@ -69,6 +110,11 @@ const MonacoEditor = ({
     });
 
     editorRef.current.getModel().updateOptions({ tabSize: 2 });
+    editorRef.current.getModel().onDidChangeContent((e) => {
+      // console.log(e);
+      console.log(JSON.stringify(e));
+      // reload();
+    });
     setIsEditorReady(true);
     preventCreation.current = true;
   }, [value, language, theme, isReadOnly]);

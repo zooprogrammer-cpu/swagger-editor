@@ -8,7 +8,7 @@ export class ApiDOMWorker {
     validatorProviders: [],
     completionProviders: [],
     performanceLogs: false,
-    logLevel: apidomLS.LogLevel.WARN,
+    logLevel: apidomLS.LogLevel.TRACE,
     defaultLanguageContent: {
       namespace: 'asyncapi',
     },
@@ -111,6 +111,24 @@ export class ApiDOMWorker {
     }
 
     return this._languageService.doDeref(document, dereferenceContext);
+  }
+
+  async getNodeComments(uri, pos = {}) {
+    const document = this._getTextDocument(uri);
+    if (!document) {
+      return [];
+    }
+
+    return this._languageService.getNodeComments(document, pos);
+  }
+
+  async addNodeComment(uri, pos, comment) {
+    const document = this._getTextDocument(uri);
+    if (!document) {
+      return;
+    }
+
+    this._languageService.addNodeComment(document, pos, comment);
   }
 
   async getJsonPointerPosition(uri, jsonPointer) {

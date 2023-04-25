@@ -13,10 +13,12 @@ const darkThemeMap = {
   key: {
     string: 0,
     number: 5,
+    comment: 9,
   },
   value: {
     string: 0,
     number: 5,
+    comment: 9,
   },
   pathItem: 13,
   components: 9,
@@ -31,7 +33,10 @@ const darkThemeMap = {
   'components-callbacks': 17,
   'components-path-items': 17,
   'openapi-reference': 9,
-  'server-url': 0,
+  'server-url': {
+    default: 0,
+    comment: 9, // light green
+  },
   'Asyncapi-reference': 9,
   'json-reference': 9,
   'reference-element': 7,
@@ -67,7 +72,6 @@ const darkThemeMap = {
 
 export const getStyleMetadataDark = (type, modifiers) => {
   let color = 5;
-
   if (modifiers && modifiers.length > 0) {
     color = darkThemeMap[type][modifiers[0]] ? darkThemeMap[type][modifiers[0]] : 5;
   } else {
@@ -76,12 +80,12 @@ export const getStyleMetadataDark = (type, modifiers) => {
       color = darkThemeMap[type] && darkThemeMap[type].default ? darkThemeMap[type].default : 5;
     }
   }
-
+  const isComment = modifiers && modifiers.length > 0 && modifiers[0] === 'comment';
   return {
     foreground: color,
     bold: false,
-    underline: false,
-    italic: false,
+    underline: isComment,
+    italic: isComment,
   };
 };
 
@@ -160,12 +164,15 @@ export default {
     { token: 'value', foreground: '#98C379' },
     { token: 'value.string', foreground: '#98C379' },
     { token: 'value.number', foreground: '#98C379' },
+    { token: 'value.comment', foreground: '#ff5500', fontStyle: 'italic' },
     // plain key: pinkish-orange, which appears light orange
     { token: 'key.string', foreground: '#e8b9bb' },
     { token: 'key.number', foreground: '#e8b9bb' },
+    { token: 'key.comment', foreground: '#ff5500', fontStyle: 'italic' },
     // misc token key/value pair: sky blue
     { token: 'api-version', foreground: '#1de2fa' }, // version inside of info object
     { token: 'server-url', foreground: '#1de2fa' },
+    { token: 'server-url.comment', foreground: '#ff5500', fontStyle: 'italic' }, // blue
     // misc token object: sky blue
     { token: 'callback', foreground: '#1de2fa' },
     { token: 'contact', foreground: '#1de2fa' },
