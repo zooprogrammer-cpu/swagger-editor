@@ -12,3 +12,22 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
   monospace;
 }
+
+.myGlyphMarginClass {
+  background: black;
+}
+.myGlyphMarginClass::before {
+  content: '+';
+  display: block;
+  margin-left: 4px;
+  font-size: 0.9rem;
+  color: #a5db00;
+}
+
+.myGlyphMarginClass:hover {
+  margin-left: 4px;
+}
+
+.myContentClass {
+  background: lightblue;
+}

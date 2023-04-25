@@ -5,6 +5,7 @@ import { ModesRegistry } from 'monaco-editor/esm/vs/editor/common/languages/mode
 import * as apidom from './apidom.js';
 import { setupMode } from './apidom-mode.js';
 import createDereferenceActionDescriptor from './actions/dereference.js';
+import createCommentsActionDescriptor from './actions/comments.js';
 
 export { getWorker } from './apidom-mode.js';
 
@@ -100,6 +101,10 @@ const lazyMonacoContribution = ({ createData, system }) => {
           const dereferenceActionDescriptor = createDereferenceActionDescriptor(system);
           if (!editor.getAction(dereferenceActionDescriptor.id)) {
             disposables.push(editor.addAction(dereferenceActionDescriptor));
+          }
+          const commentsActionDescriptor = createCommentsActionDescriptor(system);
+          if (!editor.getAction(commentsActionDescriptor.id)) {
+            disposables.push(editor.addAction(commentsActionDescriptor));
           }
         })
       );
