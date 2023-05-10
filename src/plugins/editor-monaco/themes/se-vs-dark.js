@@ -156,6 +156,7 @@ export default {
     { token: 'key.comment', foreground: '#ff5500', fontStyle: 'italic' },
     // misc token key/value pair: sky blue
     { token: 'api-version', foreground: '#1de2fa' }, // version inside of info object
+    { token: 'api-version.comment', foreground: '#1de2fa', fontStyle: 'italic' },
     { token: 'server-url', foreground: '#1de2fa' },
     { token: 'server-url.comment', foreground: '#ff5500', fontStyle: 'italic' }, // blue
     // misc token object: sky blue
@@ -166,6 +167,7 @@ export default {
     { token: 'examples', foreground: '#1de2fa' },
     { token: 'header', foreground: '#1de2fa' },
     { token: 'license', foreground: '#1de2fa' },
+    { token: 'license.comment', foreground: '#1de2fa', fontStyle: 'italic' },
     { token: 'oAuthFlow', foreground: '#1de2fa' },
     { token: 'oAuthFlows', foreground: '#1de2fa' },
     { token: 'operation-example', foreground: '#1de2fa' },
@@ -176,6 +178,7 @@ export default {
     { token: 'operationTrait', foreground: '#1de2fa' },
     // tokens exist in apidom-ls, but not working in editor, sky blue
     { token: 'version', foreground: '#1de2fa' },
+    { token: 'version.comment', foreground: '#1de2fa', fontStyle: 'italic' },
     { token: 'title', foreground: '#1de2fa' },
     { token: 'specVersion', foreground: '#1de2fa' },
     { token: 'asyncApiVersion', foreground: '#1de2fa' },

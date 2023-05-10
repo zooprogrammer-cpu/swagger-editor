@@ -22,13 +22,13 @@ class DiagnosticsAdapter extends Adapter {
       }
 
       let handle;
-      const changeSubscription = model.onDidChangeContent(() => {
+      const changeSubscription = model.onDidChangeContent((e) => {
         /**
          * Here we are Debouncing the user changes, so everytime a new change is done,
          * we wait some time before validating, otherwise if the user is still typing, we cancel the change.
          */
         clearTimeout(handle);
-        handle = setTimeout(() => this.#validate(model), 300);
+        handle = setTimeout(() => this.#validate(model, e), 300);
       });
 
       this.#listener[model.uri.toString()] = {
@@ -68,7 +68,7 @@ class DiagnosticsAdapter extends Adapter {
     this.#disposables.push(this.#diagnosticCollection);
   }
 
-  async #getDiagnostics(model) {
+  async #getDiagnostics(model, event) {
     const worker = await this.worker(model.uri);
 
     if (model.isDisposed()) {
@@ -77,14 +77,14 @@ class DiagnosticsAdapter extends Adapter {
     }
 
     try {
-      return await worker.doValidation(model.uri.toString());
+      return await worker.doValidation(model.uri.toString(), event);
     } catch {
       return undefined;
     }
   }
 
-  async #validate(model) {
-    const diagnostics = await this.#getDiagnostics(model);
+  async #validate(model, event) {
+    const diagnostics = await this.#getDiagnostics(model, event);
 
     this.#diagnosticCollection.set(
       model.uri,

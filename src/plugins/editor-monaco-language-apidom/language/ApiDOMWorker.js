@@ -7,7 +7,7 @@ export class ApiDOMWorker {
     validatorProviders: [],
     completionProviders: [],
     performanceLogs: false,
-    logLevel: apidomLS.LogLevel.TRACE,
+    logLevel: apidomLS.LogLevel.ERROR,
     defaultLanguageContent: {
       namespace: 'asyncapi',
     },
@@ -19,11 +19,12 @@ export class ApiDOMWorker {
     this._languageService = apidomLS.getLanguageService(this.constructor.apiDOMContext);
   }
 
-  async doValidation(uri) {
+  async doValidation(uri, event) {
     const document = this._getTextDocument(uri);
     if (!document) {
       return [];
     }
+    this._languageService.syncComments(document, event);
     return this._languageService.doValidation(document);
   }
 

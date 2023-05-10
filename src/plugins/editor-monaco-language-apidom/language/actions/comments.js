@@ -47,7 +47,8 @@ const createCommentsActionDescriptor = ({ getSystem }) => ({
     console.log('COMMENT', comment);
     if (comment) {
       await worker.addNodeComment(model.uri.toString(), pos, comment);
-      // system.editorActions.setContent(model.getValue());
+      system.editorActions.setContent(model.getValue());
+      model.setValue(model.getValue());
     }
   },
 });

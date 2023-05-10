@@ -70,8 +70,6 @@ const MonacoEditor = ({
   const valueRef = useRef(value);
   const [isEditorReady, setIsEditorReady] = useState(false);
 
-  localStorage.clear();
-
   const createEditor = useCallback(() => {
     editorRef.current = monaco.editor.create(containerRef.current, {
       value,
@@ -105,11 +103,7 @@ const MonacoEditor = ({
     });
 
     editorRef.current.getModel().updateOptions({ tabSize: 2 });
-    editorRef.current.getModel().onDidChangeContent((e) => {
-      // console.log(e);
-      console.log(JSON.stringify(e));
-      // reload();
-    });
+
     setIsEditorReady(true);
   }, [value, language, theme, isReadOnly]);
 

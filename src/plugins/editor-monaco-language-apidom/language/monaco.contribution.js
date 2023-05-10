@@ -97,7 +97,8 @@ const lazyMonacoContribution = ({ createData, system }) => {
   disposables.push(
     monaco.editor.onDidCreateEditor((editor) => {
       disposables.push(
-        monaco.editor.onDidCreateModel(() => {
+        // eslint-disable-next-line no-unused-vars
+        monaco.editor.onDidCreateModel((model) => {
           const dereferenceActionDescriptor = createDereferenceActionDescriptor(system);
           if (!editor.getAction(dereferenceActionDescriptor.id)) {
             disposables.push(editor.addAction(dereferenceActionDescriptor));
