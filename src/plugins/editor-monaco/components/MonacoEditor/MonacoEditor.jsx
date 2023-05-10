@@ -71,8 +71,6 @@ const MonacoEditor = ({
   const preventCreation = useRef(false);
   const [isEditorReady, setIsEditorReady] = useState(false);
 
-  localStorage.clear();
-
   const createEditor = useCallback(() => {
     if (!containerRef.current) return;
     if (preventCreation.current) return;
@@ -110,11 +108,7 @@ const MonacoEditor = ({
     });
 
     editorRef.current.getModel().updateOptions({ tabSize: 2 });
-    editorRef.current.getModel().onDidChangeContent((e) => {
-      // console.log(e);
-      console.log(JSON.stringify(e));
-      // reload();
-    });
+
     setIsEditorReady(true);
     preventCreation.current = true;
   }, [value, language, theme, isReadOnly]);
