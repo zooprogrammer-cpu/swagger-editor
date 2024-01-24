@@ -11,6 +11,7 @@ import EditorPreviewPlugin from 'plugins/editor-preview/index.js';
 import EditorPreviewSwaggerUIPlugin from 'plugins/editor-preview-swagger-ui/index.js';
 import EditorPreviewAsyncAPIPlugin from 'plugins/editor-preview-asyncapi/index.js';
 import EditorPreviewApiDesignSystemsPlugin from 'plugins/editor-preview-api-design-systems/index.js';
+import EditorPreviewMustachePlugin from 'plugins/editor-preview-mustache/index.js';
 import EditorContentReadOnlyPlugin from 'plugins/editor-content-read-only/index.js';
 import EditorContentOriginPlugin from 'plugins/editor-content-origin/index.js';
 import EditorContentTypePlugin from 'plugins/editor-content-type/index.js';
@@ -34,6 +35,7 @@ const TextareaPreset = () => [
   EditorPreviewSwaggerUIPlugin,
   EditorPreviewAsyncAPIPlugin,
   EditorPreviewApiDesignSystemsPlugin,
+  EditorPreviewMustachePlugin,
   TopBarPlugin,
   SplashScreenPlugin,
   LayoutPlugin,

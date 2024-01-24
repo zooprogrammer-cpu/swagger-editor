@@ -64,6 +64,12 @@ export const detectContentType = (content) => {
     editorActions.detectContentTypeStarted({ content, requestId });
 
     try {
+      if (/^{{!\s*mustache\s*}}/.test(content)) {
+        const contentType = 'text/mustache';
+
+        return editorActions.detectContentTypeSuccess({ contentType, content, requestId });
+      }
+
       const asyncApi2JSONMatch = content.match(detectionRegExpAsyncAPIJSON2);
       if (asyncApi2JSONMatch !== null && fn.isValidJSONObject(content)) {
         const { groups } = asyncApi2JSONMatch;

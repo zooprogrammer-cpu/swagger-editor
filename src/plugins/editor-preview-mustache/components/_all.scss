@@ -1,0 +1,12 @@
+.swagger-editor {
+  &__editor-preview-mustache {
+    background-color: #333333;
+    min-height: calc(100vh - 54px);
+  }
+
+  &__editor-preview-mustache > .code-container {
+    margin-top: 0;
+  }
+}
+
+

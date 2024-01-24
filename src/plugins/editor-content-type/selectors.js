@@ -60,6 +60,10 @@ export const selectIsContentTypeAPIDesignSystems = createSelector(
   }
 );
 
+export const selectIsContentTypeMustache = createSelector(selectContentType, (contentType) => {
+  return contentType !== null && contentType.startsWith('text/mustache');
+});
+
 export const selectIsContentFormatJSON = createSelector(selectContentType, (contentType) => {
   return (
     contentType !== null && (contentType === 'application/json' || contentType.includes('+json'))
