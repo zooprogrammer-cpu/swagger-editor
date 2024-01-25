@@ -1,12 +1,17 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 /* eslint-disable import/no-extraneous-dependencies */
+import axios from 'axios';
 import SyntaxHighlighter from 'react-syntax-highlighter/dist/esm/light';
-import handlebars from 'react-syntax-highlighter/dist/esm/languages/hljs/handlebars';
-import agate from 'react-syntax-highlighter/dist/esm/styles/hljs/agate';
+import markdown from 'react-syntax-highlighter/dist/esm/languages/hljs/markdown';
+import ReactMarkdown from 'react-markdown';
+// import agate from 'react-syntax-highlighter/dist/esm/styles/hljs/agate';
+import * as hb from 'handlebars';
+
+import { context } from './context.js';
 /* eslint-enable */
 
-SyntaxHighlighter.registerLanguage('handlebars', handlebars);
+SyntaxHighlighter.registerLanguage('markdown', markdown);
 
 const Parsing = () => <div>Parsing...</div>;
 
@@ -23,9 +28,38 @@ const EditorPreviewMustache = ({
   const mustacheTemplate = editorSelectors.selectContent();
   const parseError = editorPreviewMustacheSelectors.selectParseError();
 
+  const axiosData = {
+    lang: 'java',
+    type: 'CLIENT',
+    codegenVersion: 'V3',
+    specURL: 'https://petstore3.swagger.io/api/v3/openapi.json',
+  };
+  const axiosConfig = {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  };
+  let rendered = mustacheTemplate;
+  try {
+    rendered = hb.compile(mustacheTemplate)(context);
+  } catch (err) {
+    console.log(err);
+  }
+
   useEffect(() => {
-    return () => {
+    return async () => {
       editorPreviewMustacheActions.previewUnmounted();
+      try {
+        axios.post('http://localhost:8081/api/model', axiosData, axiosConfig).then((res) => {
+          console.log(res);
+          rendered = hb.compile(mustacheTemplate)(context);
+          // isParseSuccess = true;
+        });
+      } catch (err) {
+        console.log(err);
+        // isParseFailure = true;
+      }
     };
   }, [editorPreviewMustacheActions]);
 
@@ -33,11 +67,7 @@ const EditorPreviewMustache = ({
     <section className="swagger-editor__editor-preview-mustache">
       {isParseInProgress && <Parsing />}
 
-      {isParseSuccess && (
-        <SyntaxHighlighter className="code-container" language="handlebards" style={agate}>
-          {mustacheTemplate}
-        </SyntaxHighlighter>
-      )}
+      {isParseSuccess && <ReactMarkdown>{rendered}</ReactMarkdown>}
 
       {isParseFailure && <ParseErrors error={parseError} />}
     </section>

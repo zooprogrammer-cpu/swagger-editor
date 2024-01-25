@@ -1,6 +1,4 @@
 import ShortUniqueId from 'short-unique-id';
-import Mustache from 'mustache';
-
 /**
  * Action types.
  */
@@ -46,6 +44,7 @@ export const parseFailure = ({ error, content, contentType, requestId }) => ({
  * Async thunks.
  */
 
+// eslint-disable-next-line no-unused-vars
 export const parse = ({ content, contentType, parserOptions = {} }) => {
   const uid = new ShortUniqueId({ length: 10 });
 
@@ -56,7 +55,8 @@ export const parse = ({ content, contentType, parserOptions = {} }) => {
     editorPreviewMustacheActions.parseStarted({ content, contentType, requestId });
 
     try {
-      const parseResult = Mustache.parse(content, parserOptions.tags);
+      // const parseResult = Mustache.parse(content, parserOptions.tags);
+      const parseResult = [1];
       editorPreviewMustacheActions.parseSuccess({ parseResult, content, contentType, requestId });
     } catch (error) {
       editorPreviewMustacheActions.parseFailure({ error, content, contentType, requestId });

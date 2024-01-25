@@ -126,6 +126,10 @@ export default {
     { token: 'operation', foreground: '#66afce', fontStyle: 'bold' }, // light blue
     { token: 'operation.httpMethod-GET', foreground: '#0099ff', fontStyle: 'bold' }, // blue
     { token: 'operation.httpMethod-POST', foreground: '#00cc99', fontStyle: 'bold' }, // teal
+    { token: 'sectionOpen', foreground: '#0099ff', fontStyle: 'bold' }, // light blue
+    { token: 'sectionOpen.deprecated', foreground: '#00cc99', fontStyle: 'bold' }, // dark teal
+    { token: 'variable', foreground: '#ff5500' },
+    { token: 'sectionClose', foreground: '#ceca84', fontStyle: 'bold' }, // light blue
     // parameters tokens: purple
     { token: 'parameters', foreground: '#C678DD', fontStyle: 'italic' },
     { token: 'parameter', foreground: '#C678DD', fontStyle: 'italic' },
