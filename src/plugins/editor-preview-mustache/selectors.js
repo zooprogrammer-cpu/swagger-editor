@@ -1,8 +1,11 @@
 import { createSelector } from 'reselect';
 
 import { initialState, FAILURE_STATUS, PARSING_STATUS, SUCCESS_STATUS } from './reducers.js';
+import { context } from './context.js';
 
 const selectState = (state) => state;
+
+export const selectParseSource = (state) => state.get('source');
 
 export const selectParseResult = createSelector(selectState, (state) => {
   const parseResult = state.get('parseResult', initialState.parseResult);
@@ -37,4 +40,15 @@ export const selectIsParseSuccess = createSelector(
 export const selectIsParseFailure = createSelector(
   selectParseStatus,
   (parseStatus) => parseStatus === FAILURE_STATUS
+);
+
+export const selectCompiledTemplate = createSelector(
+  selectParseSource,
+  selectParseResult,
+  selectIsParseSuccess,
+  (parseSource, parseResult, isParseSuccess) => {
+    if (!isParseSuccess) return parseSource;
+
+    return parseResult(context);
+  }
 );

@@ -13,6 +13,7 @@ export const FAILURE_STATUS = 'failure';
 export const initialState = {
   parseStatus: IDLE_STATUS,
   parseRequestId: null,
+  source: null,
   parseResult: null,
   parseError: null,
 };
@@ -36,6 +37,7 @@ const parseStartedReducer = (state, action) => {
   return state.merge({
     parseStatus: PARSING_STATUS,
     parseRequestId: action.meta.requestId,
+    source: action.payload,
   });
 };
 

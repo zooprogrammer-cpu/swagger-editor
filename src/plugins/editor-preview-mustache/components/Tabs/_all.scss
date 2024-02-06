@@ -1,0 +1,56 @@
+.tabs {
+  overflow: visible;
+  background: #fff;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.tabs .tab-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.tabs .tab {
+  list-style-type: none;
+  display: block;
+}
+
+.tabs .tab .tablink {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  min-width: 200px;
+
+  margin-right: 0.1em;
+  font-size: 1em;
+  border-bottom: inherit;
+  height: 2.6em;
+  transition: background-color 0.5s ease-in-out;
+
+  &.active {
+    height: 3em;
+    top: -0.23em;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-bottom: none;
+  }
+
+  &:hover {
+    background-color: white;
+  }
+}
+
+.tabs .tabcontent {
+  display: none;
+  flex-grow: 1;
+  margin: 0;
+
+  &.active {
+    display: block;
+  }
+}
+

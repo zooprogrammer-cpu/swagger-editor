@@ -1,0 +1,17 @@
+.swagger-editor {
+  &__editor-preview-mustache .mustache-compiled-template {
+    margin-top: 0;
+    width: 100%;
+    min-height: 100%;
+  }
+
+  &__editor-preview-mustache .mustache-compiled-template.mustache-compiled-template--markdown {
+    margin: 0 20px 0 20px;
+
+    & p {
+      margin: 0;
+    }
+  }
+}
+
+

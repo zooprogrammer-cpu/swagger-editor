@@ -1,4 +1,6 @@
 import ShortUniqueId from 'short-unique-id';
+import Handlebars from 'handlebars';
+
 /**
  * Action types.
  */
@@ -55,9 +57,13 @@ export const parse = ({ content, contentType, parserOptions = {} }) => {
     editorPreviewMustacheActions.parseStarted({ content, contentType, requestId });
 
     try {
-      // const parseResult = Mustache.parse(content, parserOptions.tags);
-      const parseResult = [1];
-      editorPreviewMustacheActions.parseSuccess({ parseResult, content, contentType, requestId });
+      const template = Handlebars.compile(content, parserOptions);
+      editorPreviewMustacheActions.parseSuccess({
+        parseResult: template,
+        content,
+        contentType,
+        requestId,
+      });
     } catch (error) {
       editorPreviewMustacheActions.parseFailure({ error, content, contentType, requestId });
     }

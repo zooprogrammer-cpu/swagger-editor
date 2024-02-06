@@ -126,6 +126,7 @@ export default {
     { token: 'operation', foreground: '#66afce', fontStyle: 'bold' }, // light blue
     { token: 'operation.httpMethod-GET', foreground: '#006699', fontStyle: 'bold' }, // blue-grey
     { token: 'operation.httpMethod-POST', foreground: '#339966', fontStyle: 'bold' }, // dark teal
+    // mustache tokens
     { token: 'sectionOpen', foreground: '#66afce', fontStyle: 'bold' }, // light blue
     { token: 'sectionOpen.deprecated', foreground: '#339966', fontStyle: 'bold' }, // dark teal
     { token: 'variable', foreground: '#993399' },
