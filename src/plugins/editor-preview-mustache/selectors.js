@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import Mustache from 'mustache';
 
 import { initialState, FAILURE_STATUS, PARSING_STATUS, SUCCESS_STATUS } from './reducers.js';
 import { context } from './context.js';
@@ -49,6 +50,8 @@ export const selectCompiledTemplate = createSelector(
   (parseSource, parseResult, isParseSuccess) => {
     if (!isParseSuccess) return parseSource;
 
-    return parseResult(context);
+    console.dir(parseSource);
+
+    return Mustache.render(parseSource, context);
   }
 );
