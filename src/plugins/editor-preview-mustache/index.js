@@ -9,6 +9,7 @@ import {
 import {
   detectContentTypeSuccess as detectContentTypeSuccessWrap,
   previewMounted as previewMountedWrap,
+  importContextSuccess as importContextSuccessWrap,
 } from './wrap-actions.js';
 import {
   selectParseSource,
@@ -73,6 +74,7 @@ const EditorPreviewMustachePlugin = () => {
         },
         wrapActions: {
           previewMounted: previewMountedWrap,
+          importContextSuccess: importContextSuccessWrap,
         },
         selectors: {
           selectParseSource,

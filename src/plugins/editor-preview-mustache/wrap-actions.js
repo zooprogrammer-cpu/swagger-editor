@@ -22,3 +22,10 @@ export const previewMounted = createSafeActionWrapper((oriAction, system) => asy
   await fn.waitUntil(() => !!editorSelectors.selectEditor());
   await system.editorPreviewMustacheActions.importContext(null);
 });
+
+export const importContextSuccess = createSafeActionWrapper((oriAction, system) => (payload) => {
+  oriAction(payload);
+
+  const context = JSON.stringify(payload.context, null, 2);
+  system.editorPreviewMustacheActions.setContext({ context });
+});
