@@ -1,5 +1,11 @@
 import { setContext, previewUnmounted } from './actions/index.js';
 import { parse, parseStarted, parseSuccess, parseFailure } from './actions/parse.js';
+import {
+  importContext,
+  importContextStarted,
+  importContextSuccess,
+  importContextFailure,
+} from './actions/import-context.js';
 import { detectContentTypeSuccess as detectContentTypeSuccessWrap } from './wrap-actions.js';
 import {
   selectParseSource,
@@ -18,7 +24,10 @@ import ParseErrors from './components/ParseErrors.jsx';
 import Template from './components/Template/Template.jsx';
 import Context from './components/Context/Context.jsx';
 import CompiledTemplateMarkdown from './components/CompiledTemplate/CompiledTemplateMarkdown.jsx';
+import ImportContextMenuItem from './components/ImportContextMenuItem.jsx';
 import EditorPreviewWrapper from './wrap-components/EditorPreviewWrapper.jsx';
+import FileMenuWrapper from './wrap-components/FileMenuWrapper.jsx';
+import TopBarFileMenuImportUrlMenuItemWrapper from './wrap-components/TopBarFileMenuImportUrlMenuItemWrapper.jsx';
 
 const EditorPreviewMustachePlugin = () => {
   return {
@@ -28,9 +37,14 @@ const EditorPreviewMustachePlugin = () => {
       EditorPreviewMustacheTemplate: Template,
       EditorPreviewMustacheContext: Context,
       EditorPreviewMustacheCompiledTemplateMarkdown: CompiledTemplateMarkdown,
+
+      TopBarFileMenuImportContextMenuItem: ImportContextMenuItem,
     },
     wrapComponents: {
       EditorPreview: EditorPreviewWrapper,
+
+      TopBarFileMenu: FileMenuWrapper,
+      TopBarFileMenuImportUrlMenuItem: TopBarFileMenuImportUrlMenuItemWrapper,
     },
     statePlugins: {
       editor: {
@@ -47,6 +61,11 @@ const EditorPreviewMustachePlugin = () => {
           parseStarted,
           parseSuccess,
           parseFailure,
+
+          importContext,
+          importContextStarted,
+          importContextSuccess,
+          importContextFailure,
         },
         selectors: {
           selectParseSource,
