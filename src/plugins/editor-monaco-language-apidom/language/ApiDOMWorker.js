@@ -122,6 +122,14 @@ export class ApiDOMWorker {
     return this._languageService.getJsonPointerPosition(document, jsonPointer);
   }
 
+  async refreshContext(uri) {
+    return this._languageService.refreshContext(uri);
+  }
+
+  async getContext() {
+    return this._languageService.getContext();
+  }
+
   _getTextDocument(uri) {
     const model = this._ctx.getMirrorModels().find((mm) => mm.uri.toString() === uri);
 

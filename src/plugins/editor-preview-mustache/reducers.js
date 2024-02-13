@@ -83,7 +83,8 @@ const setContextReducer = (state, action) => {
 };
 
 const importContextSuccessReducer = (state, action) => {
-  return state.merge({ context: action.payload });
+  const context = JSON.stringify(action.payload, null, 2);
+  return state.merge({ context });
 };
 
 /**

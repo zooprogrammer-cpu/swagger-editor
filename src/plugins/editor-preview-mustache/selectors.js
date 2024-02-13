@@ -56,7 +56,7 @@ export const selectCompiledTemplate = createSelector(
     try {
       return Mustache.render(parseSource, JSON.parse(context));
     } catch {
-      return '';
+      return null;
     }
   }
 );

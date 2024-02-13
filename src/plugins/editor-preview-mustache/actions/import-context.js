@@ -31,7 +31,7 @@ export const importContextSuccess = ({ context, requestId }) => ({
 });
 
 export const importContextFailure = ({ error, url, requestId }) => {
-  const errorMessage = 'Unknown error occurred';
+  const errorMessage = error.message || 'Unknown error occurred';
 
   return {
     type: EDITOR_PREVIEW_MUSTACHE_IMPORT_CONTEXT_FAILURE,
@@ -80,10 +80,11 @@ export const importContext = (url) => {
 
     try {
       const editor = editorSelectors.selectEditor();
-      const worker = await fn.getApiDOMWorker()(editor.getModel().uri); // eslint-disable-line no-unused-vars
+      const worker = await fn.getApiDOMWorker()(editor.getModel().uri);
+      const context = await worker.refreshContext(new URL(url).toString());
 
       return editorPreviewMustacheActions.importContextSuccess({
-        context: '{"importedContext": "true"}',
+        context,
         requestId,
       });
     } catch (error) {
