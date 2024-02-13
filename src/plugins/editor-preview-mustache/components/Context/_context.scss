@@ -1,5 +1,6 @@
 .swagger-editor {
   &__editor-preview-mustache .mustache-context {
+    position: relative;
     margin-top: 0;
     width: 100%;
     height: 100%;
@@ -12,6 +13,43 @@
     .microlight {
       margin-top: 0;
       height: 100%;
+    }
+
+    &__edit-icon {
+      padding: 0;
+      margin: 0;
+      background-color: inherit;
+      border: none;
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      right: 15px;
+      display: none;
+    }
+
+    &:hover {
+      .mustache-context__edit-icon {
+        display: inline;
+      }
+    }
+
+    &__textarea {
+      background-color: #333333;
+      color: white;
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: none;
+      outline: none;
+      margin: 0;
+      resize: none;
+      padding: 6px;
+      font-size: 16px;
+
+      &:focus {
+        outline: none;
+        border: none;
+      }
     }
   }
 }

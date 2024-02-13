@@ -1,8 +1,10 @@
-import { previewUnmounted, parse, parseStarted, parseSuccess, parseFailure } from './actions.js';
+import { setContext, previewUnmounted } from './actions/index.js';
+import { parse, parseStarted, parseSuccess, parseFailure } from './actions/parse.js';
 import { detectContentTypeSuccess as detectContentTypeSuccessWrap } from './wrap-actions.js';
 import {
   selectParseSource,
   selectParseStatus,
+  selectContext,
   selectIsParseInProgress,
   selectIsParseFailure,
   selectIsParseSuccess,
@@ -14,7 +16,7 @@ import reducers from './reducers.js';
 import EditorPreviewMustache from './components/EditorPreviewMustache/EditorPreviewMustache.jsx';
 import ParseErrors from './components/ParseErrors.jsx';
 import Template from './components/Template/Template.jsx';
-import Context from './components/Context.jsx';
+import Context from './components/Context/Context.jsx';
 import CompiledTemplateMarkdown from './components/CompiledTemplate/CompiledTemplateMarkdown.jsx';
 import EditorPreviewWrapper from './wrap-components/EditorPreviewWrapper.jsx';
 
@@ -39,6 +41,7 @@ const EditorPreviewMustachePlugin = () => {
       editorPreviewMustache: {
         actions: {
           previewUnmounted,
+          setContext,
 
           parse,
           parseStarted,
@@ -48,6 +51,7 @@ const EditorPreviewMustachePlugin = () => {
         selectors: {
           selectParseSource,
           selectParseStatus,
+          selectContext,
           selectIsParseInProgress,
           selectIsParseSuccess,
           selectIsParseFailure,

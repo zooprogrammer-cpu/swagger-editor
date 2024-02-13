@@ -2,7 +2,6 @@ import { createSelector } from 'reselect';
 import Mustache from 'mustache';
 
 import { initialState, FAILURE_STATUS, PARSING_STATUS, SUCCESS_STATUS } from './reducers.js';
-import { context } from './context.js';
 
 const selectState = (state) => state;
 
@@ -19,7 +18,7 @@ export const selectParseResult = createSelector(selectState, (state) => {
 });
 
 export const selectParseError = createSelector(selectState, (state) => {
-  return state.get('parseError', initialState.parseResult);
+  return state.get('parseError', initialState.parseError);
 });
 
 export const selectParseStatus = (state) => state.get('parseStatus') || initialState.parseStatus;
@@ -43,15 +42,21 @@ export const selectIsParseFailure = createSelector(
   (parseStatus) => parseStatus === FAILURE_STATUS
 );
 
+export const selectContext = createSelector(selectState, (state) => {
+  return state.get('context', initialState.context);
+});
+
 export const selectCompiledTemplate = createSelector(
   selectParseSource,
-  selectParseResult,
+  selectContext,
   selectIsParseSuccess,
-  (parseSource, parseResult, isParseSuccess) => {
+  (parseSource, context, isParseSuccess) => {
     if (!isParseSuccess) return parseSource;
 
-    console.dir(parseSource);
-
-    return Mustache.render(parseSource, context);
+    try {
+      return Mustache.render(parseSource, JSON.parse(context));
+    } catch {
+      return '';
+    }
   }
 );

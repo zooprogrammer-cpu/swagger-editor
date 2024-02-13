@@ -5,9 +5,6 @@ import Mustache from 'mustache';
  * Action types.
  */
 
-export const EDITOR_PREVIEW_MUSTACHE_PREVIEW_UNMOUNTED =
-  'editor_preview_mustache_preview_unmounted';
-
 export const EDITOR_PREVIEW_MUSTACHE_PARSE_STARTED = 'editor_preview_mustache_parse_started';
 export const EDITOR_PREVIEW_MUSTACHE_PARSE_SUCCESS = 'editor_preview_mustache_parse_success';
 export const EDITOR_PREVIEW_MUSTACHE_PARSE_FAILURE = 'editor_preview_mustache_parse_failure';
@@ -15,10 +12,6 @@ export const EDITOR_PREVIEW_MUSTACHE_PARSE_FAILURE = 'editor_preview_mustache_pa
 /**
  * Action creators.
  */
-
-export const previewUnmounted = () => ({
-  type: EDITOR_PREVIEW_MUSTACHE_PREVIEW_UNMOUNTED,
-});
 
 export const parseStarted = ({ content, contentType, requestId }) => ({
   type: EDITOR_PREVIEW_MUSTACHE_PARSE_STARTED,

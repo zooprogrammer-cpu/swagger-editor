@@ -1,9 +1,12 @@
 import {
   EDITOR_PREVIEW_MUSTACHE_PREVIEW_UNMOUNTED,
+  EDITOR_PREVIEW_MUSTACHE_SET_CONTEXT,
+} from './actions/index.js';
+import {
   EDITOR_PREVIEW_MUSTACHE_PARSE_STARTED,
   EDITOR_PREVIEW_MUSTACHE_PARSE_SUCCESS,
   EDITOR_PREVIEW_MUSTACHE_PARSE_FAILURE,
-} from './actions.js';
+} from './actions/parse.js';
 
 export const IDLE_STATUS = 'idle';
 export const PARSING_STATUS = 'parsing';
@@ -14,6 +17,7 @@ export const initialState = {
   parseStatus: IDLE_STATUS,
   parseRequestId: null,
   source: null,
+  context: '{}',
   parseResult: null,
   parseError: null,
 };
@@ -73,6 +77,10 @@ const parseFailureReducer = (state, action) => {
   return state;
 };
 
+const setContextReducer = (state, action) => {
+  return state.merge({ context: action.payload });
+};
+
 /**
  * Root reducer for this plugin.
  */
@@ -83,6 +91,7 @@ const reducers = {
   [EDITOR_PREVIEW_MUSTACHE_PARSE_STARTED]: parseStartedReducer,
   [EDITOR_PREVIEW_MUSTACHE_PARSE_SUCCESS]: parseSuccessReducer,
   [EDITOR_PREVIEW_MUSTACHE_PARSE_FAILURE]: parseFailureReducer,
+  [EDITOR_PREVIEW_MUSTACHE_SET_CONTEXT]: setContextReducer,
 };
 
 export default reducers;

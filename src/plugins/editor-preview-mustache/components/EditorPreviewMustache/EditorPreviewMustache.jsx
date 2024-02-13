@@ -4,9 +4,6 @@ import PropTypes from 'prop-types';
 import Tabs from '../Tabs/Tabs.jsx';
 import Tab from '../Tabs/Tab.jsx';
 import TabContent from '../Tabs/TabContent.jsx';
-import { context } from '../../context.js';
-
-const jsonContext = JSON.stringify(context, null, 2);
 
 const Parsing = () => <div>Parsing...</div>;
 
@@ -19,6 +16,7 @@ const EditorPreviewMustache = ({
   const isParseSuccess = editorPreviewMustacheSelectors.selectIsParseSuccess();
   const isParseFailure = editorPreviewMustacheSelectors.selectIsParseFailure();
   const parseError = editorPreviewMustacheSelectors.selectParseError();
+  const context = editorPreviewMustacheSelectors.selectContext();
 
   const ParseErrors = getComponent('EditorPreviewMustacheParseErrors', true);
   const Template = getComponent('EditorPreviewMustacheTemplate', true);
@@ -43,7 +41,7 @@ const EditorPreviewMustache = ({
             <Template />
           </TabContent>
           <TabContent>
-            <Context context={jsonContext} />
+            <Context context={context} />
           </TabContent>
           <TabContent>
             <CompiledTemplate />
@@ -66,6 +64,7 @@ EditorPreviewMustache.propTypes = {
     selectIsParseFailure: PropTypes.func.isRequired,
     selectParseResult: PropTypes.func.isRequired,
     selectParseError: PropTypes.func.isRequired,
+    selectContext: PropTypes.func.isRequired,
   }).isRequired,
 };
 
