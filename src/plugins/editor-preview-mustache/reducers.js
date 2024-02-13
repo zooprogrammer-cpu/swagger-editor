@@ -7,19 +7,30 @@ import {
   EDITOR_PREVIEW_MUSTACHE_PARSE_SUCCESS,
   EDITOR_PREVIEW_MUSTACHE_PARSE_FAILURE,
 } from './actions/parse.js';
+import {
+  EDITOR_PREVIEW_MUSTACHE_RENDER_TEMPLATE_STARTED,
+  EDITOR_PREVIEW_MUSTACHE_RENDER_TEMPLATE_SUCCESS,
+  EDITOR_PREVIEW_MUSTACHE_RENDER_TEMPLATE_FAILURE,
+} from './actions/render-template.js';
 
 export const IDLE_STATUS = 'idle';
-export const PARSING_STATUS = 'parsing';
+export const PROGRESS_STATUS = 'in-progress';
 export const SUCCESS_STATUS = 'success';
 export const FAILURE_STATUS = 'failure';
 
 export const initialState = {
   parseStatus: IDLE_STATUS,
   parseRequestId: null,
-  source: null,
-  context: '{}',
+  parseSource: null,
   parseResult: null,
   parseError: null,
+
+  renderTemplateStatus: IDLE_STATUS,
+  renderTemplateRequestId: null,
+  renderTemplateResult: null,
+  renderTemplateError: null,
+
+  context: '{}',
 };
 
 /**
@@ -39,9 +50,9 @@ const previewUnmountedReducer = (state) => {
 
 const parseStartedReducer = (state, action) => {
   return state.merge({
-    parseStatus: PARSING_STATUS,
+    parseStatus: PROGRESS_STATUS,
     parseRequestId: action.meta.requestId,
-    source: action.payload,
+    parseSource: action.payload,
   });
 };
 
@@ -49,7 +60,7 @@ const parseSuccessReducer = (state, action) => {
   const status = state.get('parseStatus') || IDLE_STATUS;
   const requestId = state.get('parseRequestId');
 
-  if (status === PARSING_STATUS && requestId === action.meta.requestId) {
+  if (status === PROGRESS_STATUS && requestId === action.meta.requestId) {
     return state.merge({
       parseStatus: SUCCESS_STATUS,
       parseRequestId: null,
@@ -65,12 +76,51 @@ const parseFailureReducer = (state, action) => {
   const status = state.get('parseStatus') || IDLE_STATUS;
   const requestId = state.get('parseRequestId');
 
-  if (status === PARSING_STATUS && requestId === action.meta.requestId) {
+  if (status === PROGRESS_STATUS && requestId === action.meta.requestId) {
     return state.merge({
       parseStatus: FAILURE_STATUS,
       parseRequestId: null,
       parseResult: null,
       parseError: action.payload,
+    });
+  }
+
+  return state;
+};
+
+const renderTemplateStartedReducer = (state, action) => {
+  return state.merge({
+    renderTemplateStatus: PROGRESS_STATUS,
+    renderTemplateRequestId: action.meta.requestId,
+  });
+};
+
+const renderTemplateSuccessReducer = (state, action) => {
+  const status = state.get('renderTemplateStatus') || IDLE_STATUS;
+  const requestId = state.get('renderTemplateRequestId');
+
+  if (status === PROGRESS_STATUS && requestId === action.meta.requestId) {
+    return state.merge({
+      renderTemplateStatus: SUCCESS_STATUS,
+      renderTemplateRequestId: null,
+      renderTemplateResult: action.payload,
+      renderTemplateErrors: null,
+    });
+  }
+
+  return state;
+};
+
+const renderTemplateFailureReducer = (state, action) => {
+  const status = state.get('renderTemplateStatus') || IDLE_STATUS;
+  const requestId = state.get('renderTemplateRequestId');
+
+  if (status === PROGRESS_STATUS && requestId === action.meta.requestId) {
+    return state.merge({
+      renderTemplateStatus: FAILURE_STATUS,
+      renderTemplateRequestId: null,
+      renderTemplateResult: null,
+      renderTemplateError: action.payload,
     });
   }
 
@@ -91,6 +141,11 @@ const reducers = {
   [EDITOR_PREVIEW_MUSTACHE_PARSE_STARTED]: parseStartedReducer,
   [EDITOR_PREVIEW_MUSTACHE_PARSE_SUCCESS]: parseSuccessReducer,
   [EDITOR_PREVIEW_MUSTACHE_PARSE_FAILURE]: parseFailureReducer,
+
+  [EDITOR_PREVIEW_MUSTACHE_RENDER_TEMPLATE_STARTED]: renderTemplateStartedReducer,
+  [EDITOR_PREVIEW_MUSTACHE_RENDER_TEMPLATE_SUCCESS]: renderTemplateSuccessReducer,
+  [EDITOR_PREVIEW_MUSTACHE_RENDER_TEMPLATE_FAILURE]: renderTemplateFailureReducer,
+
   [EDITOR_PREVIEW_MUSTACHE_SET_CONTEXT]: setContextReducer,
 };
 

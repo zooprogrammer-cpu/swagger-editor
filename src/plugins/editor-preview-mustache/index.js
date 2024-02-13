@@ -1,15 +1,28 @@
 import { setContext, previewMounted, previewUnmounted } from './actions/index.js';
 import { parse, parseStarted, parseSuccess, parseFailure } from './actions/parse.js';
 import {
-  importContext,
-  importContextStarted,
-  importContextSuccess,
-  importContextFailure,
-} from './actions/import-context.js';
+  pullContext,
+  pullContextStarted,
+  pullContextSuccess,
+  pullContextFailure,
+} from './actions/pull-context.js';
+import {
+  pushContext,
+  pushContextStarted,
+  pushContextSuccess,
+  pushContextFailure,
+} from './actions/push-context.js';
+import {
+  renderTemplate,
+  renderTemplateStarted,
+  renderTemplateSuccess,
+  renderTemplateFailure,
+} from './actions/render-template.js';
 import {
   detectContentTypeSuccess as detectContentTypeSuccessWrap,
   previewMounted as previewMountedWrap,
-  importContextSuccess as importContextSuccessWrap,
+  pullContextSuccess as pullContextSuccessWrap,
+  setContext as setContextWrap,
 } from './wrap-actions.js';
 import {
   selectParseSource,
@@ -20,14 +33,20 @@ import {
   selectIsParseSuccess,
   selectParseResult,
   selectParseError,
-  selectCompiledTemplate,
+  selectRenderTemplateStatus,
+  selectRenderTemplateResult,
+  selectIsRenderTemplateInProgress,
+  selectIsRenderTemplateSuccess,
+  selectIsRenderTemplateFailure,
+  selectRenderTemplateError,
 } from './selectors.js';
 import reducers from './reducers.js';
 import EditorPreviewMustache from './components/EditorPreviewMustache/EditorPreviewMustache.jsx';
-import ParseErrors from './components/ParseErrors.jsx';
+import ParseError from './components/ParseError.jsx';
 import Template from './components/Template/Template.jsx';
 import Context from './components/Context/Context.jsx';
-import CompiledTemplateMarkdown from './components/CompiledTemplate/CompiledTemplateMarkdown.jsx';
+import RenderTemplateError from './components/RenderedTemplate/RenderTemplateError.jsx';
+import RenderedTemplateMarkdown from './components/RenderedTemplate/RenderedTemplateMarkdown.jsx';
 import ImportContextMenuItem from './components/ImportContextMenuItem.jsx';
 import EditorPreviewWrapper from './wrap-components/EditorPreviewWrapper.jsx';
 import FileMenuWrapper from './wrap-components/FileMenuWrapper.jsx';
@@ -37,10 +56,11 @@ const EditorPreviewMustachePlugin = () => {
   return {
     components: {
       EditorPreviewMustache,
-      EditorPreviewMustacheParseErrors: ParseErrors,
+      EditorPreviewMustacheParseError: ParseError,
       EditorPreviewMustacheTemplate: Template,
       EditorPreviewMustacheContext: Context,
-      EditorPreviewMustacheCompiledTemplateMarkdown: CompiledTemplateMarkdown,
+      EditorPreviewMustacheRenderTemplateError: RenderTemplateError,
+      EditorPreviewMustacheRenderedTemplateMarkdown: RenderedTemplateMarkdown,
 
       TopBarFileMenuImportContextMenuItem: ImportContextMenuItem,
     },
@@ -67,25 +87,43 @@ const EditorPreviewMustachePlugin = () => {
           parseSuccess,
           parseFailure,
 
-          importContext,
-          importContextStarted,
-          importContextSuccess,
-          importContextFailure,
+          pullContext,
+          pullContextStarted,
+          pullContextSuccess,
+          pullContextFailure,
+
+          pushContext,
+          pushContextStarted,
+          pushContextSuccess,
+          pushContextFailure,
+
+          renderTemplate,
+          renderTemplateStarted,
+          renderTemplateSuccess,
+          renderTemplateFailure,
         },
         wrapActions: {
           previewMounted: previewMountedWrap,
-          importContextSuccess: importContextSuccessWrap,
+          pullContextSuccess: pullContextSuccessWrap,
+          setContext: setContextWrap,
         },
         selectors: {
           selectParseSource,
           selectParseStatus,
-          selectContext,
           selectIsParseInProgress,
           selectIsParseSuccess,
           selectIsParseFailure,
           selectParseResult,
           selectParseError,
-          selectCompiledTemplate,
+
+          selectRenderTemplateStatus,
+          selectIsRenderTemplateInProgress,
+          selectIsRenderTemplateSuccess,
+          selectIsRenderTemplateFailure,
+          selectRenderTemplateResult,
+          selectRenderTemplateError,
+
+          selectContext,
         },
         reducers,
       },

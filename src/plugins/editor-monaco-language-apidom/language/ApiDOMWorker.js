@@ -122,12 +122,16 @@ export class ApiDOMWorker {
     return this._languageService.getJsonPointerPosition(document, jsonPointer);
   }
 
-  async refreshContext(uri) {
-    return this._languageService.refreshContext(uri);
+  async refreshContext(uri, context) {
+    return this._languageService.refreshContext(uri, context);
   }
 
   async getContext() {
     return this._languageService.getContext();
+  }
+
+  async renderTemplate(template) {
+    return this._languageService.renderTemplate(template);
   }
 
   _getTextDocument(uri) {

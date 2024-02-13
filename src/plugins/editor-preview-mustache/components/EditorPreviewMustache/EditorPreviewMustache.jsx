@@ -18,10 +18,10 @@ const EditorPreviewMustache = ({
   const parseError = editorPreviewMustacheSelectors.selectParseError();
   const context = editorPreviewMustacheSelectors.selectContext();
 
-  const ParseErrors = getComponent('EditorPreviewMustacheParseErrors', true);
+  const ParseError = getComponent('EditorPreviewMustacheParseError', true);
   const Template = getComponent('EditorPreviewMustacheTemplate', true);
   const Context = getComponent('EditorPreviewMustacheContext', true);
-  const CompiledTemplate = getComponent('EditorPreviewMustacheCompiledTemplateMarkdown', true);
+  const RenderedTemplate = getComponent('EditorPreviewMustacheRenderedTemplateMarkdown', true);
 
   useEffect(() => {
     editorPreviewMustacheActions.previewMounted();
@@ -29,7 +29,7 @@ const EditorPreviewMustache = ({
     return () => {
       editorPreviewMustacheActions.previewUnmounted();
     };
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <section className="swagger-editor__editor-preview-mustache">
@@ -46,11 +46,11 @@ const EditorPreviewMustache = ({
             <Context context={context} />
           </TabContent>
           <TabContent>
-            <CompiledTemplate />
+            <RenderedTemplate />
           </TabContent>
         </Tabs>
       )}
-      {isParseFailure && <ParseErrors error={parseError} />}
+      {isParseFailure && <ParseError error={parseError} />}
     </section>
   );
 };

@@ -5,36 +5,36 @@ import { sanitizeUrl } from '@braintree/sanitize-url';
  * Action types.
  */
 
-export const EDITOR_PREVIEW_MUSTACHE_IMPORT_CONTEXT_STARTED =
-  'editor_preview_mustache_import_context_started';
-export const EDITOR_PREVIEW_MUSTACHE_IMPORT_CONTEXT_SUCCESS =
-  'editor_preview_mustache_import_context_success';
-export const EDITOR_PREVIEW_MUSTACHE_IMPORT_CONTEXT_FAILURE =
-  'editor_preview_mustache_import_context_failure';
+export const EDITOR_PREVIEW_MUSTACHE_PULL_CONTEXT_STARTED =
+  'editor_preview_mustache_pull_context_started';
+export const EDITOR_PREVIEW_MUSTACHE_PULL_CONTEXT_SUCCESS =
+  'editor_preview_mustache_pull_context_success';
+export const EDITOR_PREVIEW_MUSTACHE_PULL_CONTEXT_FAILURE =
+  'editor_preview_mustache_pull_context_failure';
 
 /**
  * Action creators.
  */
 
-export const importContextStarted = ({ url, requestId }) => ({
-  type: EDITOR_PREVIEW_MUSTACHE_IMPORT_CONTEXT_STARTED,
+export const pullContextStarted = ({ url, requestId }) => ({
+  type: EDITOR_PREVIEW_MUSTACHE_PULL_CONTEXT_STARTED,
   payload: url,
   meta: {
     requestId,
   },
 });
 
-export const importContextSuccess = ({ context, requestId }) => ({
-  type: EDITOR_PREVIEW_MUSTACHE_IMPORT_CONTEXT_SUCCESS,
+export const pullContextSuccess = ({ context, url, requestId }) => ({
+  type: EDITOR_PREVIEW_MUSTACHE_PULL_CONTEXT_SUCCESS,
   payload: context,
-  meta: { requestId },
+  meta: { requestId, url },
 });
 
-export const importContextFailure = ({ error, url, requestId }) => {
+export const pullContextFailure = ({ error, url, requestId }) => {
   const errorMessage = error.message || 'Unknown error occurred';
 
   return {
-    type: EDITOR_PREVIEW_MUSTACHE_IMPORT_CONTEXT_FAILURE,
+    type: EDITOR_PREVIEW_MUSTACHE_PULL_CONTEXT_FAILURE,
     payload: error,
     error: true,
     meta: { url, errorMessage, requestId },
@@ -44,7 +44,7 @@ export const importContextFailure = ({ error, url, requestId }) => {
 /**
  * Async thunks.
  */
-export const importContext = (url) => {
+export const pullContext = ({ url }) => {
   const uid = new ShortUniqueId({ length: 10 });
 
   return async (system) => {
@@ -52,10 +52,10 @@ export const importContext = (url) => {
     const requestId = uid();
     const sanitizedUrl = sanitizeUrl(url);
 
-    editorPreviewMustacheActions.importContextStarted({ url: sanitizedUrl, requestId });
+    editorPreviewMustacheActions.pullContextStarted({ url: sanitizedUrl, requestId });
 
     if (typeof editorSelectors?.selectEditor === 'undefined') {
-      return editorPreviewMustacheActions.importContextFailure({
+      return editorPreviewMustacheActions.pullContextFailure({
         error: new Error('No editor plugin available'),
         url: sanitizedUrl,
         requestId,
@@ -63,7 +63,7 @@ export const importContext = (url) => {
     }
 
     if (typeof fn.getApiDOMWorker === 'undefined') {
-      return editorPreviewMustacheActions.importContextFailure({
+      return editorPreviewMustacheActions.pullContextFailure({
         error: new Error('ApiDOM worker not available'),
         url: sanitizedUrl,
         requestId,
@@ -71,7 +71,7 @@ export const importContext = (url) => {
     }
 
     if (url !== null && sanitizedUrl === 'about:blank') {
-      return editorPreviewMustacheActions.importContextFailure({
+      return editorPreviewMustacheActions.pullContextFailure({
         error: new Error('Invalid url provided'),
         url: sanitizedUrl,
         requestId,
@@ -82,7 +82,7 @@ export const importContext = (url) => {
       try {
         new URL(url); // eslint-disable-line no-new
       } catch (error) {
-        return editorPreviewMustacheActions.importContextFailure({
+        return editorPreviewMustacheActions.pullContextFailure({
           error: new Error('Invalid url provided'),
           url: sanitizedUrl,
           requestId,
@@ -93,14 +93,15 @@ export const importContext = (url) => {
     try {
       const editor = await editorSelectors.selectEditor();
       const worker = await fn.getApiDOMWorker()(editor.getModel().uri);
-      const context = await worker.refreshContext(url);
+      const pulledContext = await worker.refreshContext(sanitizedUrl);
 
-      return editorPreviewMustacheActions.importContextSuccess({
-        context,
+      return editorPreviewMustacheActions.pullContextSuccess({
+        context: pulledContext,
+        url: sanitizedUrl,
         requestId,
       });
     } catch (error) {
-      return editorPreviewMustacheActions.importContextFailure({
+      return editorPreviewMustacheActions.pullContextFailure({
         error,
         url: sanitizedUrl,
         requestId,

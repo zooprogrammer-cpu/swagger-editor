@@ -12,7 +12,7 @@ const ImportContextMenuItemHandler = forwardRef(
 
     const handleConfirmDialogClose = async (result) => {
       if (result) {
-        const fsa = await editorPreviewMustacheActions.importContext(url);
+        const fsa = await editorPreviewMustacheActions.pullContext({ url });
 
         if (fsa.error) {
           alertDialogMessage.current = fsa.meta.errorMessage;
@@ -80,7 +80,7 @@ const ImportContextMenuItemHandler = forwardRef(
 ImportContextMenuItemHandler.propTypes = {
   getComponent: PropTypes.func.isRequired,
   editorPreviewMustacheActions: PropTypes.shape({
-    importContext: PropTypes.func.isRequired,
+    pullContext: PropTypes.func.isRequired,
   }).isRequired,
 };
 
