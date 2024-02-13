@@ -1,4 +1,4 @@
-import { setContext, previewUnmounted } from './actions/index.js';
+import { setContext, previewMounted, previewUnmounted } from './actions/index.js';
 import { parse, parseStarted, parseSuccess, parseFailure } from './actions/parse.js';
 import {
   importContext,
@@ -6,7 +6,10 @@ import {
   importContextSuccess,
   importContextFailure,
 } from './actions/import-context.js';
-import { detectContentTypeSuccess as detectContentTypeSuccessWrap } from './wrap-actions.js';
+import {
+  detectContentTypeSuccess as detectContentTypeSuccessWrap,
+  previewMounted as previewMountedWrap,
+} from './wrap-actions.js';
 import {
   selectParseSource,
   selectParseStatus,
@@ -54,6 +57,7 @@ const EditorPreviewMustachePlugin = () => {
       },
       editorPreviewMustache: {
         actions: {
+          previewMounted,
           previewUnmounted,
           setContext,
 
@@ -66,6 +70,9 @@ const EditorPreviewMustachePlugin = () => {
           importContextStarted,
           importContextSuccess,
           importContextFailure,
+        },
+        wrapActions: {
+          previewMounted: previewMountedWrap,
         },
         selectors: {
           selectParseSource,

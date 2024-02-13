@@ -24,10 +24,12 @@ const EditorPreviewMustache = ({
   const CompiledTemplate = getComponent('EditorPreviewMustacheCompiledTemplateMarkdown', true);
 
   useEffect(() => {
-    return async () => {
+    editorPreviewMustacheActions.previewMounted();
+
+    return () => {
       editorPreviewMustacheActions.previewUnmounted();
     };
-  }, [editorPreviewMustacheActions]);
+  }, []);
 
   return (
     <section className="swagger-editor__editor-preview-mustache">
@@ -56,6 +58,7 @@ const EditorPreviewMustache = ({
 EditorPreviewMustache.propTypes = {
   getComponent: PropTypes.func.isRequired,
   editorPreviewMustacheActions: PropTypes.shape({
+    previewMounted: PropTypes.func.isRequired,
     previewUnmounted: PropTypes.func.isRequired,
   }).isRequired,
   editorPreviewMustacheSelectors: PropTypes.shape({

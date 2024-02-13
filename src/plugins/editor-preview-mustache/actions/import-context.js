@@ -70,18 +70,30 @@ export const importContext = (url) => {
       });
     }
 
-    if (sanitizedUrl === 'about:blank') {
-      return editorPreviewMustacheActions.importUrlFailure({
+    if (url !== null && sanitizedUrl === 'about:blank') {
+      return editorPreviewMustacheActions.importContextFailure({
         error: new Error('Invalid url provided'),
         url: sanitizedUrl,
         requestId,
       });
     }
 
+    if (url !== null) {
+      try {
+        new URL(url); // eslint-disable-line no-new
+      } catch (error) {
+        return editorPreviewMustacheActions.importContextFailure({
+          error: new Error('Invalid url provided'),
+          url: sanitizedUrl,
+          requestId,
+        });
+      }
+    }
+
     try {
-      const editor = editorSelectors.selectEditor();
+      const editor = await editorSelectors.selectEditor();
       const worker = await fn.getApiDOMWorker()(editor.getModel().uri);
-      const context = await worker.refreshContext(new URL(url).toString());
+      const context = await worker.refreshContext(url);
 
       return editorPreviewMustacheActions.importContextSuccess({
         context,

@@ -1,6 +1,5 @@
 import createSafeActionWrapper from '../../utils/create-safe-action-wrapper.js';
 
-// eslint-disable-next-line import/prefer-default-export
 export const detectContentTypeSuccess = createSafeActionWrapper(
   (oriAction, system) =>
     ({ content }) => {
@@ -14,3 +13,12 @@ export const detectContentTypeSuccess = createSafeActionWrapper(
       }
     }
 );
+
+export const previewMounted = createSafeActionWrapper((oriAction, system) => async (payload) => {
+  oriAction(payload);
+
+  const { editorSelectors, fn } = system;
+
+  await fn.waitUntil(() => !!editorSelectors.selectEditor());
+  await system.editorPreviewMustacheActions.importContext(null);
+});
