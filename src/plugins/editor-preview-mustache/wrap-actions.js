@@ -1,21 +1,5 @@
 import createSafeActionWrapper from '../../utils/create-safe-action-wrapper.js';
 
-export const detectContentTypeSuccess = createSafeActionWrapper(
-  (oriAction, system) =>
-    async ({ content }) => {
-      const { editorSelectors, editorPreviewMustacheActions } = system;
-
-      if (editorSelectors.selectIsContentTypeMustache()) {
-        const contentType = editorSelectors.selectContentType();
-        const parserOptions = {};
-        const context = system.editorPreviewMustacheSelectors.selectContext();
-
-        await editorPreviewMustacheActions.parse({ content, contentType, parserOptions });
-        await system.editorPreviewMustacheActions.renderTemplate({ template: content, context });
-      }
-    }
-);
-
 export const previewMounted = createSafeActionWrapper((oriAction, system) => async () => {
   const { editorSelectors, fn } = system;
 

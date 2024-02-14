@@ -19,11 +19,11 @@ import {
   renderTemplateFailure,
 } from './actions/render-template.js';
 import {
-  detectContentTypeSuccess as detectContentTypeSuccessWrap,
   previewMounted as previewMountedWrap,
   pullContextSuccess as pullContextSuccessWrap,
   setContext as setContextWrap,
 } from './wrap-actions.js';
+import { detectContentTypeSuccess as detectContentTypeSuccessWrap } from './extensions/editor/wrap-actions.js';
 import {
   selectParseSource,
   selectParseStatus,
@@ -47,10 +47,10 @@ import Template from './components/Template/Template.jsx';
 import Context from './components/Context/Context.jsx';
 import RenderTemplateError from './components/RenderedTemplate/RenderTemplateError.jsx';
 import RenderedTemplateMarkdown from './components/RenderedTemplate/RenderedTemplateMarkdown.jsx';
-import ImportContextMenuItem from './components/ImportContextMenuItem.jsx';
-import EditorPreviewWrapper from './wrap-components/EditorPreviewWrapper.jsx';
-import FileMenuWrapper from './wrap-components/FileMenuWrapper.jsx';
-import TopBarFileMenuImportUrlMenuItemWrapper from './wrap-components/TopBarFileMenuImportUrlMenuItemWrapper.jsx';
+import ImportContextMenuItem from './extensions/top-bar/components/ImportContextMenuItem.jsx';
+import EditorPreviewWrapper from './extensions/editor-preview/wrap-components/EditorPreviewWrapper.jsx';
+import FileMenuWrapper from './extensions/top-bar/wrap-components/FileMenuWrapper.jsx';
+import TopBarFileMenuImportUrlMenuItemWrapper from './extensions/top-bar/wrap-components/TopBarFileMenuImportUrlMenuItemWrapper.jsx';
 
 const EditorPreviewMustachePlugin = () => {
   return {
