@@ -33,24 +33,24 @@ const EditorPreviewMustache = ({
 
   return (
     <section className="swagger-editor__editor-preview-mustache">
-      {isParseInProgress && <Parsing />}
-      {isParseSuccess && (
-        <Tabs>
-          <Tab label="Template" />
-          <Tab label="Context" />
-          <Tab label="Compiled Template" />
-          <TabContent>
-            <Template />
-          </TabContent>
-          <TabContent>
-            <Context context={context} />
-          </TabContent>
-          <TabContent>
-            <RenderedTemplate />
-          </TabContent>
-        </Tabs>
-      )}
-      {isParseFailure && <ParseError error={parseError} />}
+      <Tabs>
+        <Tab label="Template" />
+        <Tab label="Context" />
+        <Tab label="Compiled Template" />
+        <TabContent>
+          <>
+            {isParseInProgress && <Parsing />}
+            {isParseSuccess && <Template />}
+            {isParseFailure && <ParseError error={parseError} />}
+          </>
+        </TabContent>
+        <TabContent>
+          <Context context={context} />
+        </TabContent>
+        <TabContent>
+          <RenderedTemplate />
+        </TabContent>
+      </Tabs>
     </section>
   );
 };

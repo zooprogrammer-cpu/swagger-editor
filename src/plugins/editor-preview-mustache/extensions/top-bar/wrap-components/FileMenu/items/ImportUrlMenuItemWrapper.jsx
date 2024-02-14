@@ -1,19 +1,18 @@
 import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 
-import FileMenuContext from '../components/FileMenuContext.js';
+import FileMenuContext from '../../../components/FileMenu/FileMenuContext.js';
 
-const TopBarFileMenuImportUrlMenuItemWrapper = (Original) => {
+const ImportUrlMenuItemWrapper = (Original) => {
   const ImportUrlMenuItem = ({ getComponent, onClick, children }) => {
-    const importUrlContextMenuItemHandler = useContext(FileMenuContext);
+    const { importContextMenuItemHandler } = useContext(FileMenuContext);
     const ImportContextMenuItem = getComponent('TopBarFileMenuImportContextMenuItem', true);
 
     const handleOnClick = useCallback(
       (event) => {
-        // eslint-disable-next-line react/destructuring-assignment
-        importUrlContextMenuItemHandler.current.openModal(event);
+        importContextMenuItemHandler.current.openModal(event);
       },
-      [importUrlContextMenuItemHandler]
+      [importContextMenuItemHandler]
     );
 
     return (
@@ -39,4 +38,4 @@ const TopBarFileMenuImportUrlMenuItemWrapper = (Original) => {
   return ImportUrlMenuItem;
 };
 
-export default TopBarFileMenuImportUrlMenuItemWrapper;
+export default ImportUrlMenuItemWrapper;

@@ -40,6 +40,7 @@ import {
   selectIsRenderTemplateFailure,
   selectRenderTemplateError,
 } from './selectors.js';
+import selectMustache from './extensions/editor-content-fixtures/selectors/selectMustache.js';
 import reducers from './reducers.js';
 import EditorPreviewMustache from './components/EditorPreviewMustache/EditorPreviewMustache.jsx';
 import ParseError from './components/ParseError.jsx';
@@ -47,10 +48,12 @@ import Template from './components/Template/Template.jsx';
 import Context from './components/Context/Context.jsx';
 import RenderTemplateError from './components/RenderedTemplate/RenderTemplateError.jsx';
 import RenderedTemplateMarkdown from './components/RenderedTemplate/RenderedTemplateMarkdown.jsx';
-import ImportContextMenuItem from './extensions/top-bar/components/ImportContextMenuItem.jsx';
+import ImportContextMenuItem from './extensions/top-bar/components/FileMenu/items/ImportContextMenuItem.jsx';
+import MustacheMenuItem from './extensions/top-bar/components/FileMenu/items/LoadExampleNestedMenu/items/MustacheMenuItem.jsx';
 import EditorPreviewWrapper from './extensions/editor-preview/wrap-components/EditorPreviewWrapper.jsx';
-import FileMenuWrapper from './extensions/top-bar/wrap-components/FileMenuWrapper.jsx';
-import TopBarFileMenuImportUrlMenuItemWrapper from './extensions/top-bar/wrap-components/TopBarFileMenuImportUrlMenuItemWrapper.jsx';
+import FileMenuWrapper from './extensions/top-bar/wrap-components/FileMenu/FileMenuWrapper.jsx';
+import ImportUrlMenuItemWrapper from './extensions/top-bar/wrap-components/FileMenu/items/ImportUrlMenuItemWrapper.jsx';
+import APIDesignSystemsMenuItemWrapper from './extensions/top-bar/wrap-components/FileMenu/items/LoadExampleNestedMenu/items/APIDesignSystemsMenuItemWrapper.jsx';
 
 const EditorPreviewMustachePlugin = () => {
   return {
@@ -63,17 +66,24 @@ const EditorPreviewMustachePlugin = () => {
       EditorPreviewMustacheRenderedTemplateMarkdown: RenderedTemplateMarkdown,
 
       TopBarFileMenuImportContextMenuItem: ImportContextMenuItem,
+      TopBarFileMenuLoadExampleNestedMenuMustacheMenuItem: MustacheMenuItem,
     },
     wrapComponents: {
       EditorPreview: EditorPreviewWrapper,
 
       TopBarFileMenu: FileMenuWrapper,
-      TopBarFileMenuImportUrlMenuItem: TopBarFileMenuImportUrlMenuItemWrapper,
+      TopBarFileMenuImportUrlMenuItem: ImportUrlMenuItemWrapper,
+      TopBarFileMenuLoadExampleNestedMenuAPIDesignSystemsMenuItem: APIDesignSystemsMenuItemWrapper,
     },
     statePlugins: {
       editor: {
         wrapActions: {
           detectContentTypeSuccess: detectContentTypeSuccessWrap,
+        },
+      },
+      editorContentFixtures: {
+        selectors: {
+          selectMustache,
         },
       },
       editorPreviewMustache: {
