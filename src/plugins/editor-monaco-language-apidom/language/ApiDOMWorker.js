@@ -131,7 +131,7 @@ export class ApiDOMWorker {
   }
 
   async renderTemplate(template) {
-    return this._languageService.renderTemplate(template);
+    return this._languageService.renderTemplateThroughService(template);
   }
 
   _getTextDocument(uri) {

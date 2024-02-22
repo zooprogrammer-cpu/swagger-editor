@@ -137,6 +137,7 @@ export default {
       fontStyle: 'italic',
       fontWeight: 'bold',
     }, // dark teal
+    { token: 'listKeyword', foreground: '#f51a3a', fontStyle: 'bold' }, // light blue
     // parameters tokens: purple
     { token: 'parameters', foreground: '#C678DD', fontStyle: 'italic' },
     { token: 'parameter', foreground: '#C678DD', fontStyle: 'italic' },
