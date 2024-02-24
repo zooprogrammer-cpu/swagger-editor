@@ -50,6 +50,13 @@ export const pullContext = ({ url }) => {
   return async (system) => {
     const { editorPreviewMustacheActions, editorSelectors, fn } = system;
     const requestId = uid();
+    if (!url) {
+      return editorPreviewMustacheActions.pullContextFailure({
+        error: new Error('Invalid url provided (null)'),
+        url: 'null',
+        requestId,
+      });
+    }
     const sanitizedUrl = sanitizeUrl(url);
 
     editorPreviewMustacheActions.pullContextStarted({ url: sanitizedUrl, requestId });
