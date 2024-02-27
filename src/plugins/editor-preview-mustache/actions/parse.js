@@ -1,5 +1,6 @@
 import ShortUniqueId from 'short-unique-id';
-import Mustache from 'mustache';
+import Handlebars from 'handlebars';
+// import Mustache from 'mustache';
 
 /**
  * Action types.
@@ -50,7 +51,8 @@ export const parse = ({ content, contentType, parserOptions = {} }) => {
     editorPreviewMustacheActions.parseStarted({ content, contentType, requestId });
 
     try {
-      const parseResult = Mustache.parse(content, parserOptions.tags);
+      // const parseResult = Mustache.parse(content, parserOptions.tags);
+      const parseResult = Handlebars.compile(content);
       editorPreviewMustacheActions.parseSuccess({
         parseResult,
         content,
