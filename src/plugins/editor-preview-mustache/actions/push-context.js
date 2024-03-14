@@ -45,7 +45,7 @@ export const pushContextFailure = ({ error, context, requestId }) => {
  */
 export const pushContext = ({ context }) => {
   const uid = new ShortUniqueId({ length: 10 });
-
+  console.log('pushContext - context:', context?.length, uid);
   return async (system) => {
     const { editorPreviewMustacheActions, editorSelectors, fn } = system;
     const requestId = uid();
@@ -53,6 +53,7 @@ export const pushContext = ({ context }) => {
     editorPreviewMustacheActions.pushContextStarted({ context, requestId });
 
     if (typeof editorSelectors?.selectEditor === 'undefined') {
+      console.error('pushContext - No editor plugin available');
       return editorPreviewMustacheActions.pushContextFailure({
         error: new Error('No editor plugin available'),
         context,
@@ -61,6 +62,7 @@ export const pushContext = ({ context }) => {
     }
 
     if (typeof fn.getApiDOMWorker === 'undefined') {
+      console.error('pushContext - ApiDOM worker not available');
       return editorPreviewMustacheActions.pushContextFailure({
         error: new Error('ApiDOM worker not available'),
         context,
@@ -72,12 +74,13 @@ export const pushContext = ({ context }) => {
       const editor = await editorSelectors.selectEditor();
       const worker = await fn.getApiDOMWorker()(editor.getModel().uri);
       const pushedContext = await worker.refreshContext('editor://context', JSON.parse(context));
-
+      console.log('pushContext - pushedContext:', requestId);
       return editorPreviewMustacheActions.pushContextSuccess({
         context: pushedContext,
         requestId,
       });
     } catch (error) {
+      console.error('Error pushing context', error, requestId);
       return editorPreviewMustacheActions.pushContextFailure({
         error,
         context,

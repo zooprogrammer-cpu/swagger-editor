@@ -43,7 +43,7 @@ export const parseFailure = ({ error, content, contentType, requestId }) => ({
 // eslint-disable-next-line no-unused-vars
 export const parse = ({ content, contentType, parserOptions = {} }) => {
   const uid = new ShortUniqueId({ length: 10 });
-
+  console.log('parse - content:', content?.length, contentType, uid);
   return (system) => {
     const { editorPreviewMustacheActions } = system;
     const requestId = uid();
@@ -60,6 +60,7 @@ export const parse = ({ content, contentType, parserOptions = {} }) => {
         requestId,
       });
     } catch (error) {
+      console.error('Error parsing Mustache template', error, content, contentType, requestId);
       editorPreviewMustacheActions.parseFailure({ error, content, contentType, requestId });
     }
   };

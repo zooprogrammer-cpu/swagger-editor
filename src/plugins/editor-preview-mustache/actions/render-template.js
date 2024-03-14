@@ -74,6 +74,7 @@ export const renderTemplate = ({ template, context }) => {
         const worker = await fn.getApiDOMWorker()(editor.getModel().uri);
         renderedTemplate = await worker.renderTemplate(template);
       } else {
+        console.warn('renderTemplate - rendering locally');
         renderedTemplate = Mustache.render(template, JSON.parse(context));
       }
 
@@ -84,6 +85,7 @@ export const renderTemplate = ({ template, context }) => {
         requestId,
       });
     } catch (error) {
+      console.error('Error rendering Mustache template', error, requestId);
       return editorPreviewMustacheActions.renderTemplateFailure({
         error,
         template,

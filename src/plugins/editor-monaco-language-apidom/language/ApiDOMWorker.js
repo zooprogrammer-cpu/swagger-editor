@@ -8,7 +8,7 @@ export class ApiDOMWorker {
     validatorProviders: [],
     completionProviders: [],
     performanceLogs: false,
-    logLevel: apidomLS.LogLevel.WARN,
+    logLevel: apidomLS.LogLevel.DEBUG,
     defaultLanguageContent: {
       namespace: 'asyncapi',
     },
