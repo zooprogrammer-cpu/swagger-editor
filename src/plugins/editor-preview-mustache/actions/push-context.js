@@ -1,8 +1,13 @@
 import ShortUniqueId from 'short-unique-id';
+import * as YAML from 'js-yaml';
 
 /**
  * Action types.
  */
+
+export const jsonRegExp =
+  // eslint-disable-next-line no-control-regex
+  /(?<true>^\s*true\s*$)|(?<false>^\s*false\s*$)|(?<null>^\s*null\s*$)|(?<number>^\s*\d+\s*$)|(?<object>^\s*{\s*)|(?<array>^\s*\[\s*)|(?<string>^\s*"(((?=\\)\\(["\\/bfnrt]|u[0-9a-fA-F]{4}))|[^"\\\x00-\x1F\x7F])*"\s*$)/;
 
 export const EDITOR_PREVIEW_MUSTACHE_PUSH_CONTEXT_STARTED =
   'editor_preview_mustache_push_context_started';
@@ -73,7 +78,14 @@ export const pushContext = ({ context }) => {
     try {
       const editor = await editorSelectors.selectEditor();
       const worker = await fn.getApiDOMWorker()(editor.getModel().uri);
-      const pushedContext = await worker.refreshContext('editor://context', JSON.parse(context));
+      let jsonContext = {};
+      if (!jsonRegExp.test(context)) {
+        // assume yaml
+        jsonContext = YAML.load(context);
+      } else {
+        jsonContext = JSON.parse(context);
+      }
+      const pushedContext = await worker.refreshContext('editor://context', jsonContext);
       console.log('pushContext - pushedContext:', requestId);
       return editorPreviewMustacheActions.pushContextSuccess({
         context: pushedContext,

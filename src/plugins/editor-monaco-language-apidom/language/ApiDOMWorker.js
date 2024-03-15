@@ -19,6 +19,8 @@ export class ApiDOMWorker {
     validationContext: {
       referenceValidationMode: apidomLS.ReferenceValidationMode.APIDOM_INDIRECT_EXTERNAL,
     },
+    // handlebarsJsonSchemaCompletion: true,
+    // handlebarsJsonSchemaCompletionImplementation: 'library',
   };
 
   constructor(ctx, createData) {
