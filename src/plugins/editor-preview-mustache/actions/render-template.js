@@ -1,5 +1,6 @@
 import ShortUniqueId from 'short-unique-id';
-import Mustache from 'mustache';
+// import Mustache from 'mustache';
+import Handlebars from 'handlebars';
 
 /**
  * Action types.
@@ -75,7 +76,9 @@ export const renderTemplate = ({ template, context }) => {
         renderedTemplate = await worker.renderTemplate(template);
       } else {
         console.warn('renderTemplate - rendering locally');
-        renderedTemplate = Mustache.render(template, JSON.parse(context));
+        // renderedTemplate = Mustache.render(template, JSON.parse(context));
+        const render = Handlebars.compile(template);
+        render(JSON.parse(context));
       }
 
       return editorPreviewMustacheActions.renderTemplateSuccess({
