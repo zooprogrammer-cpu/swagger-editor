@@ -32,6 +32,14 @@ const MonacoEditor = ({
   const [isEditorReady, setIsEditorReady] = useState(false);
 
   const createEditor = useCallback(() => {
+    monaco.editor.addKeybindingRules([
+      {
+        // eslint-disable-next-line no-bitwise
+        keybinding: monaco.KeyMod.CtrlCmd | monaco.KeyMod.Alt | monaco.KeyCode.Space,
+        command: 'editor.action.triggerSuggest',
+        when: 'textInputFocus',
+      },
+    ]);
     editorRef.current = monaco.editor.create(containerRef.current, {
       value,
       language,
