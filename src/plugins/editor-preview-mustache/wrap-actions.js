@@ -8,8 +8,10 @@ export const previewMounted = createSafeActionWrapper((oriAction, system) => asy
 });
 
 export const pullContextSuccess = createSafeActionWrapper((oriAction, system) => (payload) => {
-  const context = JSON.stringify(payload.context, null, 2);
-
+  let { context } = payload;
+  if (typeof context !== 'string') {
+    context = JSON.stringify(payload.context, null, 2);
+  }
   system.editorPreviewMustacheActions.setContext({ context, origin: 'monaco-language-apidom' });
 });
 

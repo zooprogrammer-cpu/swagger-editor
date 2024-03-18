@@ -1,6 +1,8 @@
 import ShortUniqueId from 'short-unique-id';
 import { sanitizeUrl } from '@braintree/sanitize-url';
 
+import parse from '../utils.js';
+
 /**
  * Action types.
  */
@@ -93,12 +95,26 @@ export const pullContext = ({ url }) => {
         });
       }
     }
-
     try {
       const editor = await editorSelectors.selectEditor();
       const worker = await fn.getApiDOMWorker()(editor.getModel().uri);
+      if (!url && localStorage.getItem('editor-preview-mustache-context')) {
+        console.log('pullContext - pulled Context empty URL from storage');
+        const pulledContext = localStorage.getItem('editor-preview-mustache-context');
+        const jsonContext = parse(pulledContext);
+        await worker.refreshContext('editor://context', jsonContext);
+        return editorPreviewMustacheActions.pullContextSuccess({
+          context: pulledContext,
+          url: sanitizedUrl,
+          requestId,
+        });
+      }
       const pulledContext = await worker.refreshContext(sanitizedUrl);
       console.log('pullContext - pulled Context');
+      localStorage.setItem(
+        'editor-preview-mustache-context',
+        JSON.stringify(pulledContext, null, 2)
+      );
       return editorPreviewMustacheActions.pullContextSuccess({
         context: pulledContext,
         url: sanitizedUrl,
