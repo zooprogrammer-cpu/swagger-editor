@@ -205,6 +205,7 @@ export default {
     { token: 'asyncapi-reference', foreground: '#ff9966' },
     { token: 'json-reference', foreground: '#ff9966' },
   ],
+  // see https://gist.github.com/dcts/5b2af4c8b6918e7d35c4121f11d49fb1
   colors: {
     'editor.background': '#282c34',
     'editor.foreground': '#abb2bf',
@@ -212,6 +213,10 @@ export default {
     'editorLineNumber.activeForeground': '#ABB2BF',
     'editorHoverWidget.background': '#282c34',
     'editorHoverWidget.border': '#636D83',
+    'editor.wordHighlightBackground': '#135d03',
+    'editor.wordHighlightBorder': '#fcffff',
+    'editor.worldHighlightStrongBackground': '#135d03',
+    'editor.worldHighlightStrongBorder': '#fcffff',
     'minimap.background': '#282c34',
   },
 };

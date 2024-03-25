@@ -5,6 +5,7 @@ import { createConverter as createProtocolConverter } from 'vscode-languageclien
 import WorkerManager from './WorkerManager.js';
 import DiagnosticsProvider from './providers/DiagnosticsProvider.js';
 import HoverProvider from './providers/HoverProvider.js';
+import DocumentHighlightProvider from './providers/DocumentHighlightProvider.js';
 import DocumentLinkProvider from './providers/DocumentLinkProvider.js';
 import CompletionItemProvider from './providers/CompletionItemProvider.js';
 import DocumentSemanticTokensProvider from './providers/DocumentSemanticTokensProvider.js';
@@ -47,6 +48,12 @@ const registerProviders = ({ languageId, providers, dependencies }) => {
     await system.monacoInitializationDeferred().promise;
 
     providers.push(vscodeLanguages.registerHoverProvider(languageId, new HoverProvider(...args)));
+    providers.push(
+      vscodeLanguages.registerDocumentHighlightProvider(
+        languageId,
+        new DocumentHighlightProvider(...args)
+      )
+    );
     providers.push(
       vscodeLanguages.registerDocumentLinkProvider(languageId, new DocumentLinkProvider(...args))
     );

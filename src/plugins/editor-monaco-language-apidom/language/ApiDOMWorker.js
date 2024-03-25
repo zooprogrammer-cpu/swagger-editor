@@ -43,6 +43,15 @@ export class ApiDOMWorker {
     return this._languageService.doValidation(document);
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  async doProvideDocumentHighlights(uri, position, token) {
+    const document = this._getTextDocument(uri);
+    if (!document) {
+      return [];
+    }
+    return this._languageService.provideDocumentHighlights(document, position, token);
+  }
+
   async doComplete(uri, position) {
     const document = this._getTextDocument(uri);
     if (!document) {
