@@ -20,7 +20,7 @@ export class ApiDOMWorker {
       referenceValidationMode: apidomLS.ReferenceValidationMode.APIDOM_INDIRECT_EXTERNAL,
     },
     // handlebarsJsonSchemaCompletion: true,
-    // handlebarsJsonSchemaCompletionImplementation: 'library',
+    // handlebarsJsonSchemaCompletionImplementation: 'type-explorer',
   };
 
   constructor(ctx, createData) {
