@@ -7,13 +7,7 @@ const selectState = (state) => state;
 export const selectParseSource = (state) => state.get('parseSource');
 
 export const selectParseResult = createSelector(selectState, (state) => {
-  const parseResult = state.get('parseResult', initialState.parseResult);
-
-  if (Array.isArray(parseResult)) {
-    return null;
-  }
-
-  return parseResult;
+  return state.get('parseResult', initialState.parseResult);
 });
 
 export const selectParseError = createSelector(selectState, (state) => {

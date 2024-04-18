@@ -1,5 +1,6 @@
 import { setContext, previewMounted, previewUnmounted } from './actions/index.js';
 import { parse, parseStarted, parseSuccess, parseFailure } from './actions/parse.js';
+import { parseContext } from './fn.js';
 import {
   pullContext,
   pullContextStarted,
@@ -74,6 +75,9 @@ const EditorPreviewMustachePlugin = () => {
       TopBarFileMenu: FileMenuWrapper,
       TopBarFileMenuImportUrlMenuItem: ImportUrlMenuItemWrapper,
       TopBarFileMenuLoadExampleNestedMenuAPIDesignSystemsMenuItem: APIDesignSystemsMenuItemWrapper,
+    },
+    fn: {
+      parseMustacheContext: parseContext,
     },
     statePlugins: {
       editor: {

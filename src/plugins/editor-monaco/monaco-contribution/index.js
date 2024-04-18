@@ -2,6 +2,7 @@ import * as monaco from 'monaco-editor';
 import { StandaloneServices, IStorageService } from 'vscode/services';
 
 import goToSymbolActionDescriptor from './actions/go-to-symbol.js';
+import keyBindings from './key-bindings.js';
 
 const lazyMonacoContribution = ({ system }) => {
   const disposables = [];
@@ -9,6 +10,9 @@ const lazyMonacoContribution = ({ system }) => {
   system.monacoInitializationDeferred().promise.then(() => {
     StandaloneServices.get(IStorageService).store('expandSuggestionDocs', true, 0, 0);
   });
+
+  // setup custom key bindings
+  monaco.editor.addKeybindingRules(keyBindings);
 
   // setup custom actions
   disposables.push(

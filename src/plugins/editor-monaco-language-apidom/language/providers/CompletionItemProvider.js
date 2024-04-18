@@ -16,7 +16,6 @@ class CompletionItemProvider extends Provider {
 
   async provideCompletionItems(vscodeDocument, position) {
     const completionList = await this.#getCompletionList(vscodeDocument, position);
-    console.log('completionList: ', completionList);
     return this.protocolConverter.asCompletionResult(completionList);
   }
 }

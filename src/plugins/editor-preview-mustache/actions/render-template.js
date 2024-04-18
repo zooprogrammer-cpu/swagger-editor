@@ -1,5 +1,4 @@
 import ShortUniqueId from 'short-unique-id';
-// import Mustache from 'mustache';
 import Handlebars from 'handlebars';
 
 /**
@@ -75,10 +74,8 @@ export const renderTemplate = ({ template, context }) => {
         const worker = await fn.getApiDOMWorker()(editor.getModel().uri);
         renderedTemplate = await worker.renderTemplate(template);
       } else {
-        console.warn('renderTemplate - rendering locally');
-        // renderedTemplate = Mustache.render(template, JSON.parse(context));
         const render = Handlebars.compile(template);
-        render(JSON.parse(context));
+        renderedTemplate = render(JSON.parse(context));
       }
 
       return editorPreviewMustacheActions.renderTemplateSuccess({
@@ -88,7 +85,6 @@ export const renderTemplate = ({ template, context }) => {
         requestId,
       });
     } catch (error) {
-      console.error('Error rendering Mustache template', error, requestId);
       return editorPreviewMustacheActions.renderTemplateFailure({
         error,
         template,

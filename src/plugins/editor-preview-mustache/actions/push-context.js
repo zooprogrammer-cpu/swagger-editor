@@ -1,7 +1,5 @@
 import ShortUniqueId from 'short-unique-id';
 
-import parse from '../utils.js';
-
 /**
  * Action types.
  */
@@ -47,7 +45,7 @@ export const pushContextFailure = ({ error, context, requestId }) => {
  */
 export const pushContext = ({ context }) => {
   const uid = new ShortUniqueId({ length: 10 });
-  console.log('pushContext - context:', context?.length, uid);
+
   return async (system) => {
     const { editorPreviewMustacheActions, editorSelectors, fn } = system;
     const requestId = uid();
@@ -55,7 +53,6 @@ export const pushContext = ({ context }) => {
     editorPreviewMustacheActions.pushContextStarted({ context, requestId });
 
     if (typeof editorSelectors?.selectEditor === 'undefined') {
-      console.error('pushContext - No editor plugin available');
       return editorPreviewMustacheActions.pushContextFailure({
         error: new Error('No editor plugin available'),
         context,
@@ -64,7 +61,6 @@ export const pushContext = ({ context }) => {
     }
 
     if (typeof fn.getApiDOMWorker === 'undefined') {
-      console.error('pushContext - ApiDOM worker not available');
       return editorPreviewMustacheActions.pushContextFailure({
         error: new Error('ApiDOM worker not available'),
         context,
@@ -75,16 +71,13 @@ export const pushContext = ({ context }) => {
     try {
       const editor = await editorSelectors.selectEditor();
       const worker = await fn.getApiDOMWorker()(editor.getModel().uri);
-      localStorage.setItem('editor-preview-mustache-context', context);
-      const jsonContext = parse(context);
-      const pushedContext = await worker.refreshContext('editor://context', jsonContext);
-      console.log('pushContext - pushedContext:', requestId);
+      const parsedContext = fn.parseMustacheContext(context);
+      const pushedContext = await worker.refreshContext('editor://context', parsedContext);
       return editorPreviewMustacheActions.pushContextSuccess({
         context: pushedContext,
         requestId,
       });
     } catch (error) {
-      console.error('Error pushing context', error, requestId);
       return editorPreviewMustacheActions.pushContextFailure({
         error,
         context,
