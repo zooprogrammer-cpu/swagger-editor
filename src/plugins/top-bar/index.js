@@ -8,7 +8,9 @@ import OpenAPI31PetstoreMenuItem from './components/FileMenu/items/LoadExampleNe
 import OpenAPI30PetstoreMenuItem from './components/FileMenu/items/LoadExampleNestedMenu/items/OpenAPI30PetstoreMenuItem.jsx';
 import OpenAPI20PetstoreMenuItem from './components/FileMenu/items/LoadExampleNestedMenu/items/OpenAPI20PetstoreMenuItem.jsx';
 import AsyncAPI26PetstoreMenuItem from './components/FileMenu/items/LoadExampleNestedMenu/items/AsyncAPI26PetstoreMenuItem.jsx';
+import AsyncAPI30PetstoreMenuItem from './components/FileMenu/items/LoadExampleNestedMenu/items/AsyncAPI30PetstoreMenuItem.jsx';
 import AsyncAPI26StreetlightsMenuItem from './components/FileMenu/items/LoadExampleNestedMenu/items/AsyncAPI26StreetlightsMenuItem.jsx';
+import AsyncAPI30StreetlightsMenuItem from './components/FileMenu/items/LoadExampleNestedMenu/items/AsyncAPI30StreetlightsMenuItem.jsx';
 import APIDesignSystemsMenuItem from './components/FileMenu/items/LoadExampleNestedMenu/items/APIDesignSystemsMenuItem.jsx';
 import SaveAsMenuItem from './components/FileMenu/items/SaveAsMenuItem.jsx';
 import ConvertAndSaveAsJSONMenuItem from './components/FileMenu/items/ConvertAndSaveAsJSONMenuItem.jsx';
@@ -143,9 +145,12 @@ const TopBarPlugin = () => ({
     TopBarFileMenuLoadExampleNestedMenuOpenAPI31PetstoreMenuItem: OpenAPI31PetstoreMenuItem,
     TopBarFileMenuLoadExampleNestedMenuOpenAPI30PetstoreMenuItem: OpenAPI30PetstoreMenuItem,
     TopBarFileMenuLoadExampleNestedMenuOpenAPI20PetstoreMenuItem: OpenAPI20PetstoreMenuItem,
+    TopBarFileMenuLoadExampleNestedMenuAsyncAPI30PetstoreMenuItem: AsyncAPI30PetstoreMenuItem,
     TopBarFileMenuLoadExampleNestedMenuAsyncAPI26PetstoreMenuItem: AsyncAPI26PetstoreMenuItem,
     TopBarFileMenuLoadExampleNestedMenuAsyncAPI26StreetlightsMenuItem:
       AsyncAPI26StreetlightsMenuItem,
+    TopBarFileMenuLoadExampleNestedMenuAsyncAPI30StreetlightsMenuItem:
+      AsyncAPI30StreetlightsMenuItem,
     TopBarFileMenuLoadExampleNestedMenuAPIDesignSystemsMenuItem: APIDesignSystemsMenuItem,
     TopBarFileMenuSaveAsMenuItem: SaveAsMenuItem,
     TopBarFileMenuConvertAndSaveAsJSONMenuItem: ConvertAndSaveAsJSONMenuItem,

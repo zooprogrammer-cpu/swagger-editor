@@ -24,8 +24,16 @@ const LoadExampleNestedMenu = (props) => {
     'TopBarFileMenuLoadExampleNestedMenuAsyncAPI26PetstoreMenuItem',
     true
   );
+  const AsyncAPI30PetstoreMenuItem = getComponent(
+    'TopBarFileMenuLoadExampleNestedMenuAsyncAPI30PetstoreMenuItem',
+    true
+  );
   const AsyncAPI26StreetlightsMenuItem = getComponent(
     'TopBarFileMenuLoadExampleNestedMenuAsyncAPI26StreetlightsMenuItem',
+    true
+  );
+  const AsyncAPI30StreetlightsMenuItem = getComponent(
+    'TopBarFileMenuLoadExampleNestedMenuAsyncAPI30StreetlightsMenuItem',
     true
   );
   const APIDesignSystemsMenuItem = getComponent(
@@ -45,8 +53,14 @@ const LoadExampleNestedMenu = (props) => {
   const handleAsyncAPI26PetstoreClick = useCallback(async (event) => {
     await loadExampleNestedMenuHandler.current.loadAsyncAPI26PetstoreFixture(event);
   }, []);
+  const handleAsyncAPI30PetstoreClick = useCallback(async (event) => {
+    await loadExampleNestedMenuHandler.current.loadAsyncAPI30PetstoreFixture(event);
+  }, []);
   const handleAsyncAPI26StreetlightsClick = useCallback(async (event) => {
     await loadExampleNestedMenuHandler.current.loadAsyncAPI26StreetlightsFixture(event);
+  }, []);
+  const handleAsyncAPI30StreetlightsClick = useCallback(async (event) => {
+    await loadExampleNestedMenuHandler.current.loadAsyncAPI30StreetlightsFixture(event);
   }, []);
   const handleAPIDesignSystemsClick = useCallback(async (event) => {
     await loadExampleNestedMenuHandler.current.loadAPIDesignSystemsFixture(event);
@@ -61,7 +75,9 @@ const LoadExampleNestedMenu = (props) => {
         <OpenAPI30PetstoreMenuItem onClick={handleOpenAPI30PetstoreClick} />
         <OpenAPI20PetstoreMenuItem onClick={handleOpenAPI20PetstoreClick} />
         <DropdownMenuItemDivider />
+        <AsyncAPI30PetstoreMenuItem onClick={handleAsyncAPI30PetstoreClick} />
         <AsyncAPI26PetstoreMenuItem onClick={handleAsyncAPI26PetstoreClick} />
+        <AsyncAPI30StreetlightsMenuItem onClick={handleAsyncAPI30StreetlightsClick} />
         <AsyncAPI26StreetlightsMenuItem onClick={handleAsyncAPI26StreetlightsClick} />
         <DropdownMenuItemDivider />
         <APIDesignSystemsMenuItem onClick={handleAPIDesignSystemsClick} />

@@ -84,7 +84,6 @@ Install dependencies needed for webpack@5 to properly build SwaggerEditor.
 
 ```sh
  $ npm i stream-browserify --save-dev
- $ npm i process --save-dev
  $ npm i https-browserify --save-dev
  $ npm i stream-http --save-dev
  $ npm i util --save-dev
@@ -120,11 +119,12 @@ module.exports = {
     alias: {
       // This alias make sure we don't pull two different versions of monaco-editor
       'monaco-editor': '/node_modules/monaco-editor',
+      // This alias makes sure we're avoiding a runtime error related to this package
+      '@stoplight/ordered-object-literal$': '/node_modules/@stoplight/ordered-object-literal/src/index.mjs',
     },
   },
   plugins: [
     new webpack.ProvidePlugin({
-      process: 'process/browser.js',
       Buffer: ['buffer', 'Buffer'],
     }),
   ],
@@ -172,7 +172,6 @@ Install `copy-webpack-plugin` and other needed dependencies.
 ```sh
  $ npm i copy-webpack-plugin --save-dev
  $ npm i stream-browserify --save-dev
- $ npm i process --save-dev
  $ npm i https-browserify --save-dev
  $ npm i stream-http --save-dev
  $ npm i util --save-dev
@@ -207,11 +206,12 @@ module.exports = {
     alias: {
       // This alias make sure we don't pull two different versions of monaco-editor
       'monaco-editor': '/node_modules/monaco-editor',
+      // This alias makes sure we're avoiding a runtime error related to this package
+      '@stoplight/ordered-object-literal$': '/node_modules/@stoplight/ordered-object-literal/src/index.mjs',
     }
   },
   plugins: [
     new webpack.ProvidePlugin({
-      process: 'process/browser.js',
       Buffer: ['buffer', 'Buffer'],
     }),
     new CopyWebpackPlugin({
@@ -232,7 +232,7 @@ module.exports = {
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
-      }
+      },
     ]
   }
 };
@@ -446,7 +446,7 @@ In order to inform `swagger-editor@5` npm package that I require it to use my Re
 
 ### yarn
 
-In order to inform `swagger-editor@5` npm package that I require it to use my specific React version, I need to use [yarm resolutions](https://yarnpkg.com/cli/set/resolution).
+In order to inform `swagger-editor@5` npm package that I require it to use my specific React version, I need to use [yarn resolutions](https://yarnpkg.com/cli/set/resolution).
 
 
 ```json
