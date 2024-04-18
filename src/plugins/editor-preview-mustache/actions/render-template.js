@@ -75,7 +75,8 @@ export const renderTemplate = ({ template, context }) => {
         renderedTemplate = await worker.renderTemplate(template);
       } else {
         const render = Handlebars.compile(template);
-        renderedTemplate = render(JSON.parse(context));
+        const parsedContext = fn.parseMustacheContext(context);
+        renderedTemplate = render(parsedContext);
       }
 
       return editorPreviewMustacheActions.renderTemplateSuccess({

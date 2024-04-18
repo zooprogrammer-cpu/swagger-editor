@@ -29,7 +29,8 @@ export const pullContextSuccess = createSafeActionWrapper((oriAction, system) =>
 });
 
 export const setContext = createSafeActionWrapper((oriAction, system) => async (payload) => {
-  const template = await system.editorPreviewMustacheSelectors.selectParseSource();
+  const { editorSelectors, fn } = system;
+  const template = system.editorPreviewMustacheSelectors.selectParseSource();
   const { context, origin } = payload;
 
   if (origin !== 'local-storage') {
@@ -40,5 +41,6 @@ export const setContext = createSafeActionWrapper((oriAction, system) => async (
     await system.editorPreviewMustacheActions.pushContext({ context });
   }
 
+  await fn.waitUntil(() => !!editorSelectors.selectEditor());
   await system.editorPreviewMustacheActions.renderTemplate({ template, context });
 });
