@@ -60,16 +60,16 @@ export const renderTemplate = ({ template, context }) => {
   return async (system) => {
     const { editorPreviewMustacheActions, editorSelectors, fn } = system;
     const requestId = uid();
+    const isApiDOMWorkerAvailable =
+      typeof editorSelectors?.selectEditor !== 'undefined' &&
+      typeof fn.getApiDOMWorker !== 'undefined';
 
     editorPreviewMustacheActions.renderTemplateStarted({ template, context, requestId });
 
     try {
       let renderedTemplate = '';
 
-      if (
-        typeof editorSelectors?.selectEditor !== 'undefined' &&
-        typeof fn.getApiDOMWorker !== 'undefined'
-      ) {
+      if (isApiDOMWorkerAvailable) {
         const editor = await editorSelectors.selectEditor();
         const worker = await fn.getApiDOMWorker()(editor.getModel().uri);
         renderedTemplate = await worker.renderTemplate(template);
@@ -77,6 +77,16 @@ export const renderTemplate = ({ template, context }) => {
         const render = Handlebars.compile(template);
         const parsedContext = fn.parseMustacheContext(context);
         renderedTemplate = render(parsedContext);
+      }
+
+      // executes when ApiDOM Language Service fails to render the template
+      if (isApiDOMWorkerAvailable && renderedTemplate.startsWith('ERROR RENDERING:')) {
+        return editorPreviewMustacheActions.renderTemplateFailure({
+          error: new Error(renderedTemplate.split('\n')[0]),
+          template,
+          context,
+          requestId,
+        });
       }
 
       return editorPreviewMustacheActions.renderTemplateSuccess({

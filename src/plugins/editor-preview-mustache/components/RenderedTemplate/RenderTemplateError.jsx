@@ -8,7 +8,7 @@ const RenderTemplateError = ({ error }) => {
           <div className="version-pragma__message version-pragma__message--missing">
             <div>
               <h3>There was an error during Mustache template rendering.</h3>
-              <p>Please fix the error: {error.message}</p>
+              <p>Please fix the error: {`"${error.message}"`}</p>
             </div>
           </div>
         </div>
