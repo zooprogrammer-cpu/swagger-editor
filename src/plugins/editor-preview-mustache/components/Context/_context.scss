@@ -15,29 +15,23 @@
       height: 100%;
     }
 
-    &__edit-icon {
-      padding: 0;
-      margin: 0;
-      background-color: inherit;
-      border: none;
-      cursor: pointer;
+    &__edit {
       position: absolute;
       top: 0;
-      right: 15px;
-      display: none;
+      right: 0;
+    }
+    &__save {
+      position: absolute;
+      top: 0;
+      right: 13px;
     }
 
-    &:hover {
-      .mustache-context__edit-icon {
-        display: inline;
-      }
-    }
 
     &__textarea {
       background-color: #333333;
       color: white;
       display: block;
-      width: 100%;
+      width: calc(100% - 10px);
       height: 100%;
       border: none;
       outline: none;
@@ -45,6 +39,7 @@
       resize: none;
       padding: 6px;
       font-size: 16px;
+      overflow-y: scroll;
 
       &:focus {
         outline: none;

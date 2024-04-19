@@ -1,53 +1,48 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-
-import EditIcon from './EditIcon.jsx';
 
 const Context = ({ context, getComponent, editorPreviewMustacheActions }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedContext, setEditedContext] = useState(context);
-  const isEditingRef = useRef(isEditing);
-  const editedContextRef = useRef(editedContext);
 
   const HighlightCode = getComponent('highlightCode');
 
   const handleEditModeOn = useCallback(() => {
     setIsEditing(true);
-    isEditingRef.current = true;
   }, []);
   const handleContextChange = useCallback((event) => {
     setEditedContext(event.target.value);
-    editedContextRef.current = event.target.value;
   }, []);
-
-  useEffect(() => {
-    return () => {
-      if (isEditingRef.current) {
-        editorPreviewMustacheActions.setContext({
-          context: editedContextRef.current,
-          origin: 'editor',
-        });
-      }
-    };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const handleSave = useCallback(() => {
+    setIsEditing(false);
+    editorPreviewMustacheActions.setContext({
+      context: editedContext,
+      origin: 'editor',
+    });
+  }, [editedContext]);
 
   return (
     <article className={classNames('mustache-context', { 'mustache-context--editing': isEditing })}>
       {isEditing && (
-        <textarea
-          className="mustache-context__textarea"
-          value={editedContext}
-          onChange={handleContextChange}
-        />
+        <>
+          <button type="button" className="mustache-context__save" onClick={handleSave}>
+            Save
+          </button>
+          <textarea
+            className="mustache-context__textarea"
+            value={editedContext}
+            onChange={handleContextChange}
+          />
+        </>
       )}
 
       {!isEditing && (
         <>
-          <button type="button" className="mustache-context__edit-icon" onClick={handleEditModeOn}>
-            <EditIcon />
+          <button type="button" className="mustache-context__edit" onClick={handleEditModeOn}>
+            Edit
           </button>
-          <HighlightCode value={context} language="json" />
+          <HighlightCode value={context} language="yaml" />
         </>
       )}
     </article>
