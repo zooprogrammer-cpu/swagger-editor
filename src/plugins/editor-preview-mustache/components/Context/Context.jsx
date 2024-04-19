@@ -20,7 +20,7 @@ const Context = ({ context, getComponent, editorPreviewMustacheActions }) => {
       context: editedContext,
       origin: 'editor',
     });
-  }, [editedContext]);
+  }, [editedContext, editorPreviewMustacheActions]);
 
   return (
     <article className={classNames('mustache-context', { 'mustache-context--editing': isEditing })}>

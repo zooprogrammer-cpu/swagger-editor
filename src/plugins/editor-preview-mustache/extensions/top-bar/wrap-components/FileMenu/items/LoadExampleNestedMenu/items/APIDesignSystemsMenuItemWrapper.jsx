@@ -1,16 +1,9 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-const APIDesignSystemsMenuItemWrapper = (Original) => {
-  const APIDesignSystemsMenuItem = ({
-    getComponent,
-    editorContentFixturesSelectors,
-    editorActions,
-    onClick,
-    children,
-  }) => {
-    const DropdownMenuItemDivider = getComponent('DropdownMenuItemDivider');
-    const MustacheMenuItem = getComponent(
+const APIDesignSystemsMenuItemWrapper = () => {
+  const MustacheMenuItem = ({ getComponent, editorContentFixturesSelectors, editorActions }) => {
+    const TopBarFileMenuLoadExampleNestedMenuMustacheMenuItem = getComponent(
       'TopBarFileMenuLoadExampleNestedMenuMustacheMenuItem',
       true
     );
@@ -20,18 +13,10 @@ const APIDesignSystemsMenuItemWrapper = (Original) => {
       editorActions.setContent(content, 'fixture-load');
     }, [editorContentFixturesSelectors, editorActions]);
 
-    return (
-      <>
-        <Original getComponent={getComponent} onClick={onClick}>
-          {children}
-        </Original>
-        <DropdownMenuItemDivider />
-        <MustacheMenuItem onClick={handleOnClick} />
-      </>
-    );
+    return <TopBarFileMenuLoadExampleNestedMenuMustacheMenuItem onClick={handleOnClick} />;
   };
 
-  APIDesignSystemsMenuItem.propTypes = {
+  MustacheMenuItem.propTypes = {
     getComponent: PropTypes.func.isRequired,
     editorActions: PropTypes.shape({
       setContent: PropTypes.func.isRequired,
@@ -39,15 +24,9 @@ const APIDesignSystemsMenuItemWrapper = (Original) => {
     editorContentFixturesSelectors: PropTypes.shape({
       selectMustache: PropTypes.func.isRequired,
     }).isRequired,
-    children: PropTypes.node,
-    onClick: PropTypes.func.isRequired,
   };
 
-  APIDesignSystemsMenuItem.defaultProps = {
-    children: null,
-  };
-
-  return APIDesignSystemsMenuItem;
+  return MustacheMenuItem;
 };
 
 export default APIDesignSystemsMenuItemWrapper;

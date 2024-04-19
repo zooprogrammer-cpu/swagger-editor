@@ -61,7 +61,7 @@ export const selectIsContentTypeAPIDesignSystems = createSelector(
 );
 
 export const selectIsContentTypeMustache = createSelector(selectContentType, (contentType) => {
-  return contentType !== null && contentType.startsWith('text/mustache');
+  return contentType !== null && contentType.startsWith('application/vnd.aai.handlebars');
 });
 
 export const selectIsContentFormatJSON = createSelector(selectContentType, (contentType) => {

@@ -10,7 +10,10 @@ export class ApiDOMWorker {
     performanceLogs: false,
     logLevel: apidomLS.LogLevel.DEBUG,
     defaultLanguageContent: {
-      namespace: 'asyncapi',
+      namespace: 'handlebars',
+      version: '1.0',
+      format: 'TEXT',
+      mediaType: 'application/vnd.aai.handlebars;version=1.0',
     },
     completionContext: {
       maxNumberOfItems: 100,

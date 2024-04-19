@@ -24,7 +24,10 @@ import {
   pullContextSuccess as pullContextSuccessWrap,
   setContext as setContextWrap,
 } from './wrap-actions.js';
-import { detectContentTypeSuccess as detectContentTypeSuccessWrap } from './extensions/editor/wrap-actions.js';
+import {
+  detectContentTypeSuccess as detectContentTypeSuccessWrap,
+  detectContentType as detectContentTypeWrap,
+} from './extensions/editor-content-type/wrap-actions.js';
 import {
   selectParseSource,
   selectParseStatus,
@@ -54,6 +57,9 @@ import EditorPreviewWrapper from './extensions/editor-preview/wrap-components/Ed
 import FileMenuWrapper from './extensions/top-bar/wrap-components/FileMenu/FileMenuWrapper.jsx';
 import ImportUrlMenuItemWrapper from './extensions/top-bar/wrap-components/FileMenu/items/ImportUrlMenuItemWrapper.jsx';
 import APIDesignSystemsMenuItemWrapper from './extensions/top-bar/wrap-components/FileMenu/items/LoadExampleNestedMenu/items/APIDesignSystemsMenuItemWrapper.jsx';
+import DropdownMenuItemDividerWrapper from './extensions/dropdown-menu/wrap-components/DropdownMenuItemDivider.jsx';
+
+const stubNull = () => null;
 
 const EditorPreviewMustachePlugin = () => {
   return {
@@ -66,9 +72,18 @@ const EditorPreviewMustachePlugin = () => {
 
       TopBarFileMenuImportContextMenuItem: ImportContextMenuItem,
       TopBarFileMenuLoadExampleNestedMenuMustacheMenuItem: MustacheMenuItem,
+      TopBarFileMenuLoadExampleNestedMenuOpenAPI31PetstoreMenuItem: stubNull,
+      TopBarFileMenuLoadExampleNestedMenuOpenAPI30PetstoreMenuItem: stubNull,
+      TopBarFileMenuLoadExampleNestedMenuOpenAPI20PetstoreMenuItem: stubNull,
+      TopBarFileMenuLoadExampleNestedMenuAsyncAPI30PetstoreMenuItem: stubNull,
+      TopBarFileMenuLoadExampleNestedMenuAsyncAPI26PetstoreMenuItem: stubNull,
+      TopBarFileMenuLoadExampleNestedMenuAsyncAPI26StreetlightsMenuItem: stubNull,
+      TopBarFileMenuLoadExampleNestedMenuAsyncAPI30StreetlightsMenuItem: stubNull,
     },
     wrapComponents: {
       EditorPreview: EditorPreviewWrapper,
+
+      DropdownMenuItemDivider: DropdownMenuItemDividerWrapper,
 
       TopBarFileMenu: FileMenuWrapper,
       TopBarFileMenuImportUrlMenuItem: ImportUrlMenuItemWrapper,
@@ -81,6 +96,7 @@ const EditorPreviewMustachePlugin = () => {
     statePlugins: {
       editor: {
         wrapActions: {
+          detectContentType: detectContentTypeWrap,
           detectContentTypeSuccess: detectContentTypeSuccessWrap,
         },
       },

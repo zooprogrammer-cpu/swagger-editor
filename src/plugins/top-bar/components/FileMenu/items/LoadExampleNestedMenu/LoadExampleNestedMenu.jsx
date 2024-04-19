@@ -74,12 +74,12 @@ const LoadExampleNestedMenu = (props) => {
         <OpenAPI31PetstoreMenuItem onClick={handleOpenAPI31PetstoreClick} />
         <OpenAPI30PetstoreMenuItem onClick={handleOpenAPI30PetstoreClick} />
         <OpenAPI20PetstoreMenuItem onClick={handleOpenAPI20PetstoreClick} />
-        <DropdownMenuItemDivider />
+        <DropdownMenuItemDivider className="divider divider--load-example" />
         <AsyncAPI30PetstoreMenuItem onClick={handleAsyncAPI30PetstoreClick} />
         <AsyncAPI26PetstoreMenuItem onClick={handleAsyncAPI26PetstoreClick} />
         <AsyncAPI30StreetlightsMenuItem onClick={handleAsyncAPI30StreetlightsClick} />
         <AsyncAPI26StreetlightsMenuItem onClick={handleAsyncAPI26StreetlightsClick} />
-        <DropdownMenuItemDivider />
+        <DropdownMenuItemDivider className="divider divider--load-example" />
         <APIDesignSystemsMenuItem onClick={handleAPIDesignSystemsClick} />
       </DropDownMenuNested>
     </>
