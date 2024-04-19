@@ -8,4 +8,4 @@ export const parseContext = (context) => {
   }
 };
 
-export const stringifyContext = (context) => JSON.stringify(context, null, 2);
+export const stringifyContext = (context) => YAML.dump(context);
