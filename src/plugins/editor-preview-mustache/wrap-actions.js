@@ -7,7 +7,7 @@ export const previewMounted = createSafeActionWrapper((oriAction, system) => asy
   const contextFromState = system.editorPreviewMustacheSelectors.selectContext();
   const contextFromLocalStorage = localStorage.getItem(localStorageKey);
 
-  if (contextFromLocalStorage !== contextFromState) {
+  if (contextFromLocalStorage !== null && contextFromLocalStorage !== contextFromState) {
     // getting context from local storage
     system.editorPreviewMustacheActions.setContext({
       context: contextFromLocalStorage,
@@ -22,8 +22,10 @@ export const previewMounted = createSafeActionWrapper((oriAction, system) => asy
 });
 
 export const pullContextSuccess = createSafeActionWrapper((oriAction, system) => (payload) => {
+  const { fn } = system;
+
   system.editorPreviewMustacheActions.setContext({
-    context: payload.context,
+    context: fn.stringifyMustacheContext(payload.context),
     origin: 'monaco-language-apidom',
   });
 });

@@ -1,6 +1,6 @@
 import { setContext, previewMounted, previewUnmounted } from './actions/index.js';
 import { parse, parseStarted, parseSuccess, parseFailure } from './actions/parse.js';
-import { parseContext } from './fn.js';
+import { parseContext, stringifyContext } from './fn.js';
 import {
   pullContext,
   pullContextStarted,
@@ -45,7 +45,6 @@ import selectMustache from './extensions/editor-content-fixtures/selectors/selec
 import reducers from './reducers.js';
 import EditorPreviewMustache from './components/EditorPreviewMustache/EditorPreviewMustache.jsx';
 import ParseError from './components/ParseError.jsx';
-import Template from './components/Template/Template.jsx';
 import Context from './components/Context/Context.jsx';
 import RenderTemplateError from './components/RenderedTemplate/RenderTemplateError.jsx';
 import RenderedTemplateMarkdown from './components/RenderedTemplate/RenderedTemplateMarkdown.jsx';
@@ -61,7 +60,6 @@ const EditorPreviewMustachePlugin = () => {
     components: {
       EditorPreviewMustache,
       EditorPreviewMustacheParseError: ParseError,
-      EditorPreviewMustacheTemplate: Template,
       EditorPreviewMustacheContext: Context,
       EditorPreviewMustacheRenderTemplateError: RenderTemplateError,
       EditorPreviewMustacheRenderedTemplateMarkdown: RenderedTemplateMarkdown,
@@ -78,6 +76,7 @@ const EditorPreviewMustachePlugin = () => {
     },
     fn: {
       parseMustacheContext: parseContext,
+      stringifyMustacheContext: stringifyContext,
     },
     statePlugins: {
       editor: {

@@ -1,6 +1,5 @@
 import * as YAML from 'js-yaml';
 
-// eslint-disable-next-line import/prefer-default-export
 export const parseContext = (context) => {
   try {
     return JSON.parse(context);
@@ -8,3 +7,5 @@ export const parseContext = (context) => {
     return YAML.load(context);
   }
 };
+
+export const stringifyContext = (context) => JSON.stringify(context, null, 2);

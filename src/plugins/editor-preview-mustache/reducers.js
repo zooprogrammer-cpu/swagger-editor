@@ -8,6 +8,11 @@ import {
   EDITOR_PREVIEW_MUSTACHE_PARSE_FAILURE,
 } from './actions/parse.js';
 import {
+  EDITOR_PREVIEW_MUSTACHE_PULL_CONTEXT_STARTED,
+  EDITOR_PREVIEW_MUSTACHE_PULL_CONTEXT_SUCCESS,
+  EDITOR_PREVIEW_MUSTACHE_PULL_CONTEXT_FAILURE,
+} from './actions/pull-context.js';
+import {
   EDITOR_PREVIEW_MUSTACHE_RENDER_TEMPLATE_STARTED,
   EDITOR_PREVIEW_MUSTACHE_RENDER_TEMPLATE_SUCCESS,
   EDITOR_PREVIEW_MUSTACHE_RENDER_TEMPLATE_FAILURE,
@@ -24,6 +29,10 @@ export const initialState = {
   parseSource: null,
   parseResult: null,
   parseError: null,
+
+  pullStatus: IDLE_STATUS,
+  pullRequestId: null,
+  pullError: null,
 
   renderTemplateStatus: IDLE_STATUS,
   renderTemplateRequestId: null,
@@ -88,6 +97,43 @@ const parseFailureReducer = (state, action) => {
   return state;
 };
 
+const pullStartedReducer = (state, action) => {
+  return state.merge({
+    pullStatus: PROGRESS_STATUS,
+    pullRequestId: action.meta.requestId,
+  });
+};
+
+const pullSuccessReducer = (state, action) => {
+  const status = state.get('pullStatus') || IDLE_STATUS;
+  const requestId = state.get('pullRequestId');
+
+  if (status === PROGRESS_STATUS && requestId === action.meta.requestId) {
+    return state.merge({
+      pullStatus: SUCCESS_STATUS,
+      pullRequestId: null,
+      parseErrors: null,
+    });
+  }
+
+  return state;
+};
+
+const pullFailureReducer = (state, action) => {
+  const status = state.get('pullStatus') || IDLE_STATUS;
+  const requestId = state.get('pullRequestId');
+
+  if (status === PROGRESS_STATUS && requestId === action.meta.requestId) {
+    return state.merge({
+      pullStatus: FAILURE_STATUS,
+      pullRequestId: null,
+      pullError: action.payload,
+    });
+  }
+
+  return state;
+};
+
 const renderTemplateStartedReducer = (state, action) => {
   return state.merge({
     renderTemplateStatus: PROGRESS_STATUS,
@@ -141,6 +187,10 @@ const reducers = {
   [EDITOR_PREVIEW_MUSTACHE_PARSE_STARTED]: parseStartedReducer,
   [EDITOR_PREVIEW_MUSTACHE_PARSE_SUCCESS]: parseSuccessReducer,
   [EDITOR_PREVIEW_MUSTACHE_PARSE_FAILURE]: parseFailureReducer,
+
+  [EDITOR_PREVIEW_MUSTACHE_PULL_CONTEXT_STARTED]: pullStartedReducer,
+  [EDITOR_PREVIEW_MUSTACHE_PULL_CONTEXT_SUCCESS]: pullSuccessReducer,
+  [EDITOR_PREVIEW_MUSTACHE_PULL_CONTEXT_FAILURE]: pullFailureReducer,
 
   [EDITOR_PREVIEW_MUSTACHE_RENDER_TEMPLATE_STARTED]: renderTemplateStartedReducer,
   [EDITOR_PREVIEW_MUSTACHE_RENDER_TEMPLATE_SUCCESS]: renderTemplateSuccessReducer,
