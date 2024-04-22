@@ -44,19 +44,19 @@ export const pullContextFailure = ({ error, url, requestId }) => {
 /**
  * Async thunks.
  */
-export const pullContext = ({ url }) => {
+export const pullContext = ({ url, requestId: passedRequestId }) => {
   const uid = new ShortUniqueId({ length: 10 });
 
   return async (system) => {
     const { editorPreviewMustacheActions, editorSelectors, fn } = system;
-    const requestId = uid();
+    const requestId = passedRequestId ?? uid();
     const sanitizedUrl = sanitizeUrl(url);
     editorPreviewMustacheActions.pullContextStarted({ url: sanitizedUrl, requestId });
 
     if (typeof editorSelectors?.selectEditor === 'undefined') {
       return editorPreviewMustacheActions.pullContextFailure({
         error: new Error('No editor plugin available'),
-        url: sanitizedUrl,
+        url,
         requestId,
       });
     }
@@ -64,34 +64,37 @@ export const pullContext = ({ url }) => {
     if (typeof fn.getApiDOMWorker === 'undefined') {
       return editorPreviewMustacheActions.pullContextFailure({
         error: new Error('ApiDOM worker not available'),
-        url: sanitizedUrl,
+        url,
         requestId,
       });
     }
 
-    if (url !== null && sanitizedUrl === 'about:blank') {
-      return editorPreviewMustacheActions.pullContextFailure({
-        error: new Error('Invalid url provided'),
-        url: sanitizedUrl,
-        requestId,
-      });
-    }
-
+    // url was defined as invalid URL
     if (url !== null) {
       try {
         new URL(url); // eslint-disable-line no-new
       } catch (error) {
         return editorPreviewMustacheActions.pullContextFailure({
           error: new Error('Invalid url provided'),
-          url: sanitizedUrl,
+          url,
           requestId,
         });
       }
     }
+
+    // sanitized URL is 'about:blank' if the URL is invalid
+    if (url !== null && sanitizedUrl === 'about:blank') {
+      return editorPreviewMustacheActions.pullContextFailure({
+        error: new Error('Invalid url provided'),
+        url,
+        requestId,
+      });
+    }
+
     try {
       const editor = await editorSelectors.selectEditor();
       const worker = await fn.getApiDOMWorker()(editor.getModel().uri);
-      const pulledContext = await worker.refreshContext(sanitizedUrl);
+      const pulledContext = await worker.refreshContext(url ? sanitizedUrl : url);
 
       return editorPreviewMustacheActions.pullContextSuccess({
         context: pulledContext,

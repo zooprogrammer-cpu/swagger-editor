@@ -2,6 +2,12 @@ import { setContext, previewMounted, previewUnmounted } from './actions/index.js
 import { parse, parseStarted, parseSuccess, parseFailure } from './actions/parse.js';
 import { parseContext, stringifyContext } from './fn.js';
 import {
+  loadExample,
+  loadExampleStarted,
+  loadExampleSuccess,
+  loadExampleFailure,
+} from './actions/load-example.js';
+import {
   pullContext,
   pullContextStarted,
   pullContextSuccess,
@@ -110,6 +116,11 @@ const EditorPreviewMustachePlugin = () => {
           previewMounted,
           previewUnmounted,
           setContext,
+
+          loadExample,
+          loadExampleStarted,
+          loadExampleSuccess,
+          loadExampleFailure,
 
           parse,
           parseStarted,

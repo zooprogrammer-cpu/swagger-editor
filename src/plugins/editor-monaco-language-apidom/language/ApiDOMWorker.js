@@ -140,8 +140,8 @@ export class ApiDOMWorker {
     return this._languageService.refreshContext(uri, context);
   }
 
-  async getContext() {
-    return this._languageService.getContext();
+  async getContext(processed = false) {
+    return this._languageService.getContext(processed);
   }
 
   async renderTemplate(template) {
