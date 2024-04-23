@@ -56,7 +56,7 @@ export const loadExample = ({ example: customExample } = {}) => {
     try {
       editorActions.setContent(example, 'fixture-load');
       const fsa = await editorPreviewMustacheActions.pullContext({
-        url: 'https://petstore3.swagger.io/api/v3/openapi.yaml',
+        url: 'https://petstore3.swagger.io/api/v3/openapi.json',
       });
 
       if (fsa.error) {
